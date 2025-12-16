@@ -17,7 +17,6 @@ import 'package:hilol_chat_flutter/src/ui/widgets/hilol_chat_image_viewer.dart';
 import 'package:hilol_chat_flutter/src/utils/date_utils.dart';
 import 'package:fcrm_chat_sdk/fcrm_chat_sdk.dart';
 import 'package:flutter/material.dart';
-import 'package:super_context_menu/super_context_menu.dart';
 
 import '../../enums/bubble_type.dart';
 import 'hilol_chat_sender_avatar.dart';
@@ -59,45 +58,46 @@ class HilolChatBubble extends StatelessWidget {
           const HilolChatSenderAvatar(imageUrl: '', isOnline: true),
         },
 
-        ContextMenuWidget(
-          contextMenuIsAllowed: (location) => !message.isImage,
-          menuProvider: (_) {
-            return Menu(
-              children: [
-                if (!message.isImage)
-                  MenuAction(
-                    title: Strings.message_actions_copy.tr(),
-                    callback: () {
-                      final data = ClipboardData(text: message.content);
-                      Clipboard.setData(data);
-                    },
-                  ),
-
-                if (message.isUserMessage) ...{
-                  MenuAction(
-                    title: Strings.general_edit.tr(),
-                    callback: () {
-                      controller.text = message.content;
-                      controller.selection = TextSelection.fromPosition(
-                        TextPosition(offset: message.content.length),
-                      );
-                    },
-                  ),
-                },
-              ],
-            );
+        PopupMenuButton(
+          position: PopupMenuPosition.under,
+          color: Theme.of(context).cardColor,
+          // offset: const Offset(0.0, kToolbarHeight),
+          itemBuilder: (context) {
+            return [
+              if (!message.isImage)
+                PopupMenuItem(
+                  child: Text(Strings.message_actions_copy.tr()),
+                  onTap: () {
+                    final data = ClipboardData(text: message.content);
+                    Clipboard.setData(data);
+                  },
+                ),
+              if (message.isUserMessage) ...{
+                PopupMenuItem(
+                  child: Text(Strings.general_edit.tr()),
+                  onTap: () {
+                    controller.text = message.content;
+                    controller.selection = TextSelection.fromPosition(
+                      TextPosition(offset: message.content.length),
+                    );
+                  },
+                ),
+              },
+            ];
           },
           child: GestureDetector(
-            onTap: () {
-              if (message.isImage) {
-                context.push(
-                  HilolChatImageViewer(
-                    imageUrl: message.content,
-                    imageMeta: message.imageMeta,
-                  ),
-                );
-              }
-            },
+            onTap: message.isImage
+                ? () {
+                    if (message.isImage) {
+                      context.push(
+                        HilolChatImageViewer(
+                          imageUrl: message.content,
+                          imageMeta: message.imageMeta,
+                        ),
+                      );
+                    }
+                  }
+                : null,
             child: Container(
               margin: EdgeInsets.only(
                 left: isUserMessage ? 56 : 0,
