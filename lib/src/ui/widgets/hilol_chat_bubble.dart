@@ -58,131 +58,139 @@ class HilolChatBubble extends StatelessWidget {
           const HilolChatSenderAvatar(imageUrl: '', isOnline: true),
         },
 
-        PopupMenuButton(
-          position: PopupMenuPosition.under,
-          color: Theme.of(context).cardColor,
-          // offset: const Offset(0.0, kToolbarHeight),
-          itemBuilder: (context) {
-            return [
-              if (!message.isImage)
-                PopupMenuItem(
-                  child: Text(Strings.message_actions_copy.tr()),
-                  onTap: () {
-                    final data = ClipboardData(text: message.content);
-                    Clipboard.setData(data);
-                  },
-                ),
-              if (message.isUserMessage) ...{
-                PopupMenuItem(
-                  child: Text(Strings.general_edit.tr()),
-                  onTap: () {
-                    controller.text = message.content;
-                    controller.selection = TextSelection.fromPosition(
-                      TextPosition(offset: message.content.length),
-                    );
-                  },
-                ),
-              },
-            ];
-          },
-          child: GestureDetector(
-            onTap: message.isImage
-                ? () {
-                    if (message.isImage) {
-                      context.push(
-                        HilolChatImageViewer(
-                          imageUrl: message.content,
-                          imageMeta: message.imageMeta,
-                        ),
-                      );
-                    }
-                  }
-                : null,
-            child: Container(
-              margin: EdgeInsets.only(
-                left: isUserMessage ? 56 : 0,
-                right: isUserMessage ? 0 : 56,
-                bottom: isUserMessage ? 0 : 16,
-              ),
-              child: PhysicalShape(
-                clipper: ChatBubbleClipper(
-                  type: isUserMessage
-                      ? BubbleType.sendBubble
-                      : BubbleType.receiverBubble,
-                ),
-                elevation: elevation ?? 2,
-                color: isUserMessage
-                    ? Theme.of(context).primaryColor
-                    : Theme.of(context).cardColor,
-                shadowColor: shadowColor ?? Colors.grey.shade200,
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    bottom: 8,
-                    top: 8,
-                    right: isUserMessage ? 16 : 8,
-                    left: isUserMessage ? 8 : 16,
+        Theme(
+          data: Theme.of(context).copyWith(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            hoverColor: Colors.transparent,
+          ),
+          child: PopupMenuButton(
+            tooltip: '',
+            position: PopupMenuPosition.under,
+            color: Theme.of(context).cardColor,
+            // offset: const Offset(0.0, kToolbarHeight),
+            itemBuilder: (context) {
+              return [
+                if (!message.isImage)
+                  PopupMenuItem(
+                    child: Text(Strings.message_actions_copy.tr()),
+                    onTap: () {
+                      final data = ClipboardData(text: message.content);
+                      Clipboard.setData(data);
+                    },
                   ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      message.isImage
-                          ? HilolChatImage(
-                              imageUrl: message.content,
-                              imageMeta: message.imageMeta,
-                            )
-                          : Text(
-                              message.content,
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: isUserMessage ? Colors.white : null,
+                if (message.isUserMessage) ...{
+                  PopupMenuItem(
+                    child: Text(Strings.general_edit.tr()),
+                    onTap: () {
+                      controller.text = message.content;
+                      controller.selection = TextSelection.fromPosition(
+                        TextPosition(offset: message.content.length),
+                      );
+                    },
+                  ),
+                },
+              ];
+            },
+            child: GestureDetector(
+              onTap: message.isImage
+                  ? () {
+                      if (message.isImage) {
+                        context.push(
+                          HilolChatImageViewer(
+                            imageUrl: message.content,
+                            imageMeta: message.imageMeta,
+                          ),
+                        );
+                      }
+                    }
+                  : null,
+              child: Container(
+                margin: EdgeInsets.only(
+                  left: isUserMessage ? 56 : 0,
+                  right: isUserMessage ? 0 : 56,
+                  bottom: isUserMessage ? 0 : 16,
+                ),
+                child: PhysicalShape(
+                  clipper: ChatBubbleClipper(
+                    type: isUserMessage
+                        ? BubbleType.sendBubble
+                        : BubbleType.receiverBubble,
+                  ),
+                  elevation: elevation ?? 2,
+                  color: isUserMessage
+                      ? Theme.of(context).primaryColor
+                      : Theme.of(context).cardColor,
+                  shadowColor: shadowColor ?? Colors.grey.shade200,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      bottom: 8,
+                      top: 8,
+                      right: isUserMessage ? 16 : 8,
+                      left: isUserMessage ? 8 : 16,
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        message.isImage
+                            ? HilolChatImage(
+                                imageUrl: message.content,
+                                imageMeta: message.imageMeta,
+                              )
+                            : Text(
+                                message.content,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: isUserMessage ? Colors.white : null,
+                                ),
                               ),
-                            ),
-                      const SizedBox(height: 4),
-                      Row(
-                        spacing: 7,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          if (isUserMessage) ...{
-                            Text(
-                              AppDateUtils.formatDate(
-                                message.createdAt.toLocal(),
-                                format: 'hh:mm',
+                        const SizedBox(height: 4),
+                        Row(
+                          spacing: 7,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            if (isUserMessage) ...{
+                              Text(
+                                AppDateUtils.formatDate(
+                                  message.createdAt.toLocal(),
+                                  format: 'hh:mm',
+                                ),
+                                style: const TextStyle(
+                                  fontSize: 10,
+                                  color: Colors.white,
+                                ),
                               ),
-                              style: const TextStyle(
-                                fontSize: 10,
-                                color: Colors.white,
-                              ),
-                            ),
 
-                            Icon(
-                              message.isRead ? Icons.done_all : Icons.done,
-                              color: Colors.white,
-                              size: 20,
-                            ),
-                          } else ...{
-                            Text.rich(
-                              TextSpan(
-                                children: [
-                                  TextSpan(text: '${message.senderName} / '),
-                                  TextSpan(
-                                    text: AppDateUtils.formatDate(
-                                      message.createdAt.toLocal(),
-                                      format: 'hh:mm',
+                              Icon(
+                                message.isRead ? Icons.done_all : Icons.done,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                            } else ...{
+                              Text.rich(
+                                TextSpan(
+                                  children: [
+                                    TextSpan(text: '${message.senderName} / '),
+                                    TextSpan(
+                                      text: AppDateUtils.formatDate(
+                                        message.createdAt.toLocal(),
+                                        format: 'hh:mm',
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
+                                style: const TextStyle(
+                                  fontSize: 10,
+                                  color: HilolChatColors.grey,
+                                ),
                               ),
-                              style: const TextStyle(
-                                fontSize: 10,
-                                color: HilolChatColors.grey,
-                              ),
-                            ),
-                          },
-                        ],
-                      ),
-                    ],
+                            },
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

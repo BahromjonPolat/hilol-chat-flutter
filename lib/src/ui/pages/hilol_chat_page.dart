@@ -6,7 +6,6 @@
 */
 
 import 'package:hilol_chat_flutter/hilol_chat_flutter.dart';
-import 'package:hilol_chat_flutter/src/extensions/context_x.dart';
 import 'package:hilol_chat_flutter/src/ui/widgets/hilol_chat_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,17 +30,6 @@ class _HilolChatPageState extends State<HilolChatPage> {
   @override
   void initState() {
     super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final chatBloc = context.read<HilolChatBloc>();
-      final isRegistered = chatBloc.state.isRegistered;
-      if (isRegistered) {
-        return;
-      }
-      context.pushReplacement(
-        HilolChatRegisterPage(chatRepository: chatBloc.chatRepository),
-      );
-    });
   }
 
   @override

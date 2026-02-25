@@ -66,7 +66,7 @@ class HilolChatRegisterBloc
 
           emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
           final type = state.emailOrPhone.value.getUsernameType();
-          final userData = {
+          final Map<String, dynamic> userData = {
             'name': state.name.value,
             type: state.emailOrPhone.value,
           };

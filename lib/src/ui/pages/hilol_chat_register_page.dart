@@ -69,7 +69,6 @@ class HilolChatRegisterCard extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               HilolChatInputField(
-                initialValue: 'Bahromjon Polat',
                 textCapitalization: TextCapitalization.words,
                 title: Strings.register_name_label.tr(),
                 isRequired: true,
@@ -91,7 +90,6 @@ class HilolChatRegisterCard extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               HilolChatInputField(
-                initialValue: '998931881333',
                 title: Strings.register_email_or_phone_label.tr(),
                 isRequired: true,
                 textInputAction: TextInputAction.done,
@@ -121,7 +119,10 @@ class HilolChatRegisterCard extends StatelessWidget {
                   context.read<HilolChatRegisterBloc>().add(
                     HilolChatRegisterEvent.submit(
                       onSuccess: () {
-                        context.pushReplacement(const HilolChatPage());
+                        context.read<HilolChatBloc>().add(
+                          const HilolChatEvent.onRegistered(),
+                        );
+                        context.pop();
                       },
                       onError: (errorMessage) {
                         ScaffoldMessenger.of(

@@ -9,6 +9,7 @@ import 'package:hilol_chat_flutter/hilol_chat_flutter.dart';
 import 'package:hilol_chat_flutter/src/constants/hilol_chat_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hilol_chat_flutter/src/extensions/context_x.dart';
 import 'package:hilol_chat_flutter/src/extensions/string_x.dart';
 import 'package:hilol_chat_flutter/src/languages/strings.dart';
 import 'package:svg_flutter/svg_flutter.dart';
@@ -93,12 +94,33 @@ class _HilolChatMessageInputState extends State<HilolChatMessageInput> {
                     child: SendButton(
                       onPressed: () {
                         final message = widget.controller.text.trim();
-                        if (message.isEmpty) {
+                        if (message.isEmpty) return;
+
+                        final bloc = context.read<HilolChatBloc>();
+
+                        if (!bloc.state.isRegistered) {
+                          final defaultUserData = bloc.state.defaultUserData;
+                          if (defaultUserData != null) {
+                            bloc.add(
+                              HilolChatEvent.register(
+                                data: defaultUserData,
+                                onSuccess: () {
+                                  bloc.add(HilolChatEvent.sendMessage(message));
+                                },
+                              ),
+                            );
+                            widget.controller.clear();
+                          } else {
+                            context.push(
+                              HilolChatRegisterPage(
+                                chatRepository: bloc.chatRepository,
+                              ),
+                            );
+                          }
                           return;
                         }
-                        context.read<HilolChatBloc>().add(
-                          HilolChatEvent.sendMessage(message),
-                        );
+
+                        bloc.add(HilolChatEvent.sendMessage(message));
                         widget.controller.clear();
                       },
                     ),

@@ -57,6 +57,7 @@ class HilolChatBloc extends Bloc<HilolChatEvent, HilolChatState> {
                   defaultEndpoint: config.defaultEndpoint,
                   status: FormzSubmissionStatus.success,
                   isRegistered: chatInitResult.isRegistered,
+                  defaultUserData: userData,
                   errorMessage: null,
                 ),
               );
@@ -103,6 +104,7 @@ class HilolChatBloc extends Bloc<HilolChatEvent, HilolChatState> {
                 ),
               );
               onSuccess?.call();
+              add(const HilolChatEvent.getMessages());
             },
           );
         },
@@ -205,6 +207,10 @@ class HilolChatBloc extends Bloc<HilolChatEvent, HilolChatState> {
               emit(state.copyWith(errorMessage: null));
             },
           );
+        },
+        onRegistered: () async {
+          emit(state.copyWith(isRegistered: true, errorMessage: null));
+          add(const HilolChatEvent.getMessages());
         },
         addMessage: (message) {
           final messages = message.isUserMessage

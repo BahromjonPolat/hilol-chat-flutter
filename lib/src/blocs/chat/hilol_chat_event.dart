@@ -24,4 +24,6 @@ sealed class HilolChatEvent with _$HilolChatEvent {
       _SendImage;
 
   const factory HilolChatEvent.addMessage(ChatMessage message) = _AddMessage;
+
+  const factory HilolChatEvent.onRegistered() = _OnRegistered;
 }
