@@ -17,6 +17,10 @@ sealed class HilolChatEvent with _$HilolChatEvent {
     void Function(String error)? onError,
   }) = _Register;
 
+  const factory HilolChatEvent.setupUserData({
+    required HilolChatRegisterModel data,
+  }) = _SetupUserData;
+
   const factory HilolChatEvent.sendMessage(String message, {String? endpoint}) =
       _SendMessage;
 
@@ -26,4 +30,14 @@ sealed class HilolChatEvent with _$HilolChatEvent {
   const factory HilolChatEvent.addMessage(ChatMessage message) = _AddMessage;
 
   const factory HilolChatEvent.onRegistered() = _OnRegistered;
+
+  const factory HilolChatEvent.startEditing(ChatMessage message) =
+      _StartEditing;
+
+  const factory HilolChatEvent.cancelEditing() = _CancelEditing;
+
+  const factory HilolChatEvent.editMessage({
+    required int messageId,
+    required String content,
+  }) = _EditMessage;
 }

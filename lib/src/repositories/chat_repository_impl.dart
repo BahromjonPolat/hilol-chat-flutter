@@ -217,6 +217,24 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
+  Future<Either<Failure, bool>> editMessage({
+    required int messageId,
+    required String content,
+  }) async {
+    try {
+      if (_chat == null) {
+        return const Left(ChatNotInitializedFailure());
+      }
+      await _chat!.editMessage(messageId: messageId, content: content);
+      return const Right(true);
+    } catch (e) {
+      return Left(
+        ServerFailure(message: 'Failed to edit message: ${e.toString()}'),
+      );
+    }
+  }
+
+  @override
   Future<Either<Failure, bool>> isRegistered() async {
     try {
       if (_chat == null) {

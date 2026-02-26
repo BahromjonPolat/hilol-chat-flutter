@@ -16,7 +16,7 @@ import 'package:hilol_chat_flutter/hilol_chat_flutter.dart';
 
 /// Mock implementation of ChatRepository for testing
 /// This is useful for unit testing without actual network calls
-class MockChatRepository implements ChatRepository {
+sealed class MockChatRepository implements ChatRepository {
   bool _shouldFail = false;
   bool _isInitialized = false;
   bool _isUserRegistered = false;

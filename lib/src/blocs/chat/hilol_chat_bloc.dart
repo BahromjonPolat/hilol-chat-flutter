@@ -49,6 +49,9 @@ class HilolChatBloc extends Bloc<HilolChatEvent, HilolChatState> {
               _messageSubscription = chatRepository.messageStream?.listen((
                 message,
               ) {
+                if (message.isUpdated) {
+                  return;
+                }
                 add(HilolChatEvent.addMessage(message));
               });
 
@@ -75,6 +78,12 @@ class HilolChatBloc extends Bloc<HilolChatEvent, HilolChatState> {
               add(HilolChatEvent.register(data: userData));
             },
           );
+        },
+        setupUserData: (data) {
+          if (state.isRegistered) {
+            return;
+          }
+          emit(state.copyWith(defaultUserData: data));
         },
         register: (data, onSuccess, onError) async {
           if (state.status.isInProgress) {
@@ -211,6 +220,35 @@ class HilolChatBloc extends Bloc<HilolChatEvent, HilolChatState> {
         onRegistered: () async {
           emit(state.copyWith(isRegistered: true, errorMessage: null));
           add(const HilolChatEvent.getMessages());
+        },
+        startEditing: (message) {
+          emit(state.copyWith(editingMessage: message));
+        },
+        cancelEditing: () {
+          emit(state.copyWith(editingMessage: null));
+        },
+        editMessage: (messageId, content) async {
+          final result = await chatRepository.editMessage(
+            messageId: messageId,
+            content: content,
+          );
+          result.fold(
+            (failure) {
+              emit(state.copyWith(errorMessage: failure.message));
+            },
+            (_) {
+              final messages = state.messages.map((m) {
+                return m.id == messageId ? m.copyWith(content: content) : m;
+              }).toList();
+              emit(
+                state.copyWith(
+                  messages: messages,
+                  editingMessage: null,
+                  errorMessage: null,
+                ),
+              );
+            },
+          );
         },
         addMessage: (message) {
           final messages = message.isUserMessage

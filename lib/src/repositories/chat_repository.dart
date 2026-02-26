@@ -47,6 +47,13 @@ abstract class ChatRepository {
     Function(int, int)? onProgress,
   });
 
+  /// Edit an existing message
+  /// Returns [bool] on success or [Failure] on error
+  Future<Either<Failure, bool>> editMessage({
+    required int messageId,
+    required String content,
+  });
+
   /// Check if user is registered
   /// Returns [bool] on success or [Failure] on error
   Future<Either<Failure, bool>> isRegistered();

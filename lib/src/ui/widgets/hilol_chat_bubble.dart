@@ -6,6 +6,8 @@
 */
 
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hilol_chat_flutter/hilol_chat_flutter.dart';
 import 'package:hilol_chat_flutter/src/constants/hilol_chat_colors.dart';
 import 'package:hilol_chat_flutter/src/extensions/context_x.dart';
 import 'package:hilol_chat_flutter/src/extensions/message_x.dart';
@@ -79,13 +81,12 @@ class HilolChatBubble extends StatelessWidget {
                       Clipboard.setData(data);
                     },
                   ),
-                if (message.isUserMessage) ...{
+                if (message.isUserMessage && !message.isImage) ...{
                   PopupMenuItem(
                     child: Text(Strings.general_edit.tr()),
                     onTap: () {
-                      controller.text = message.content;
-                      controller.selection = TextSelection.fromPosition(
-                        TextPosition(offset: message.content.length),
+                      context.read<HilolChatBloc>().add(
+                        HilolChatEvent.startEditing(message),
                       );
                     },
                   ),
@@ -129,9 +130,10 @@ class HilolChatBubble extends StatelessWidget {
                       right: isUserMessage ? 16 : 8,
                       left: isUserMessage ? 8 : 16,
                     ),
-                    child: Column(
+                    child: IntrinsicWidth(
+                      child: Column(
                       mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         message.isImage
                             ? HilolChatImage(
@@ -140,6 +142,7 @@ class HilolChatBubble extends StatelessWidget {
                               )
                             : Text(
                                 message.content,
+                                textAlign: TextAlign.start,
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
@@ -162,9 +165,10 @@ class HilolChatBubble extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                               ),
-
                               Icon(
-                                message.isRead ? Icons.done_all : Icons.done,
+                                message.isRead
+                                    ? Icons.done_all
+                                    : Icons.done,
                                 color: Colors.white,
                                 size: 20,
                               ),
@@ -172,7 +176,9 @@ class HilolChatBubble extends StatelessWidget {
                               Text.rich(
                                 TextSpan(
                                   children: [
-                                    TextSpan(text: '${message.senderName} / '),
+                                    TextSpan(
+                                      text: '${message.senderName} / ',
+                                    ),
                                     TextSpan(
                                       text: AppDateUtils.formatDate(
                                         message.createdAt.toLocal(),
@@ -190,6 +196,7 @@ class HilolChatBubble extends StatelessWidget {
                           ],
                         ),
                       ],
+                    ),
                     ),
                   ),
                 ),

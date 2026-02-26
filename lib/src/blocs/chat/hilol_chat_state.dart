@@ -11,5 +11,6 @@ sealed class HilolChatState with _$HilolChatState {
     @Default(1) int currentPage,
     String? errorMessage,
     HilolChatRegisterModel? defaultUserData,
+    ChatMessage? editingMessage,
   }) = _Initial;
 }
