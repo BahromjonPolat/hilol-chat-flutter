@@ -40,4 +40,6 @@ sealed class HilolChatEvent with _$HilolChatEvent {
     required int messageId,
     required String content,
   }) = _EditMessage;
+
+  const factory HilolChatEvent.setChatVisible(bool visible) = _SetChatVisible;
 }

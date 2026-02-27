@@ -61,7 +61,7 @@ extension HilolChatEventPatterns on HilolChatEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initialize value)?  initialize,TResult Function( _GetMessages value)?  getMessages,TResult Function( _Register value)?  register,TResult Function( _SetupUserData value)?  setupUserData,TResult Function( _SendMessage value)?  sendMessage,TResult Function( _SendImage value)?  sendImage,TResult Function( _AddMessage value)?  addMessage,TResult Function( _OnRegistered value)?  onRegistered,TResult Function( _StartEditing value)?  startEditing,TResult Function( _CancelEditing value)?  cancelEditing,TResult Function( _EditMessage value)?  editMessage,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initialize value)?  initialize,TResult Function( _GetMessages value)?  getMessages,TResult Function( _Register value)?  register,TResult Function( _SetupUserData value)?  setupUserData,TResult Function( _SendMessage value)?  sendMessage,TResult Function( _SendImage value)?  sendImage,TResult Function( _AddMessage value)?  addMessage,TResult Function( _OnRegistered value)?  onRegistered,TResult Function( _StartEditing value)?  startEditing,TResult Function( _CancelEditing value)?  cancelEditing,TResult Function( _EditMessage value)?  editMessage,TResult Function( _SetChatVisible value)?  setChatVisible,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Initialize() when initialize != null:
@@ -75,7 +75,8 @@ return addMessage(_that);case _OnRegistered() when onRegistered != null:
 return onRegistered(_that);case _StartEditing() when startEditing != null:
 return startEditing(_that);case _CancelEditing() when cancelEditing != null:
 return cancelEditing(_that);case _EditMessage() when editMessage != null:
-return editMessage(_that);case _:
+return editMessage(_that);case _SetChatVisible() when setChatVisible != null:
+return setChatVisible(_that);case _:
   return orElse();
 
 }
@@ -93,7 +94,7 @@ return editMessage(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initialize value)  initialize,required TResult Function( _GetMessages value)  getMessages,required TResult Function( _Register value)  register,required TResult Function( _SetupUserData value)  setupUserData,required TResult Function( _SendMessage value)  sendMessage,required TResult Function( _SendImage value)  sendImage,required TResult Function( _AddMessage value)  addMessage,required TResult Function( _OnRegistered value)  onRegistered,required TResult Function( _StartEditing value)  startEditing,required TResult Function( _CancelEditing value)  cancelEditing,required TResult Function( _EditMessage value)  editMessage,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initialize value)  initialize,required TResult Function( _GetMessages value)  getMessages,required TResult Function( _Register value)  register,required TResult Function( _SetupUserData value)  setupUserData,required TResult Function( _SendMessage value)  sendMessage,required TResult Function( _SendImage value)  sendImage,required TResult Function( _AddMessage value)  addMessage,required TResult Function( _OnRegistered value)  onRegistered,required TResult Function( _StartEditing value)  startEditing,required TResult Function( _CancelEditing value)  cancelEditing,required TResult Function( _EditMessage value)  editMessage,required TResult Function( _SetChatVisible value)  setChatVisible,}){
 final _that = this;
 switch (_that) {
 case _Initialize():
@@ -107,7 +108,8 @@ return addMessage(_that);case _OnRegistered():
 return onRegistered(_that);case _StartEditing():
 return startEditing(_that);case _CancelEditing():
 return cancelEditing(_that);case _EditMessage():
-return editMessage(_that);}
+return editMessage(_that);case _SetChatVisible():
+return setChatVisible(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -121,7 +123,7 @@ return editMessage(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initialize value)?  initialize,TResult? Function( _GetMessages value)?  getMessages,TResult? Function( _Register value)?  register,TResult? Function( _SetupUserData value)?  setupUserData,TResult? Function( _SendMessage value)?  sendMessage,TResult? Function( _SendImage value)?  sendImage,TResult? Function( _AddMessage value)?  addMessage,TResult? Function( _OnRegistered value)?  onRegistered,TResult? Function( _StartEditing value)?  startEditing,TResult? Function( _CancelEditing value)?  cancelEditing,TResult? Function( _EditMessage value)?  editMessage,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initialize value)?  initialize,TResult? Function( _GetMessages value)?  getMessages,TResult? Function( _Register value)?  register,TResult? Function( _SetupUserData value)?  setupUserData,TResult? Function( _SendMessage value)?  sendMessage,TResult? Function( _SendImage value)?  sendImage,TResult? Function( _AddMessage value)?  addMessage,TResult? Function( _OnRegistered value)?  onRegistered,TResult? Function( _StartEditing value)?  startEditing,TResult? Function( _CancelEditing value)?  cancelEditing,TResult? Function( _EditMessage value)?  editMessage,TResult? Function( _SetChatVisible value)?  setChatVisible,}){
 final _that = this;
 switch (_that) {
 case _Initialize() when initialize != null:
@@ -135,7 +137,8 @@ return addMessage(_that);case _OnRegistered() when onRegistered != null:
 return onRegistered(_that);case _StartEditing() when startEditing != null:
 return startEditing(_that);case _CancelEditing() when cancelEditing != null:
 return cancelEditing(_that);case _EditMessage() when editMessage != null:
-return editMessage(_that);case _:
+return editMessage(_that);case _SetChatVisible() when setChatVisible != null:
+return setChatVisible(_that);case _:
   return null;
 
 }
@@ -152,7 +155,7 @@ return editMessage(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( HilolChatConfig config,  HilolChatRegisterModel? userData,  void Function()? onSuccess)?  initialize,TResult Function( int page)?  getMessages,TResult Function( HilolChatRegisterModel data,  void Function()? onSuccess,  void Function(String error)? onError)?  register,TResult Function( HilolChatRegisterModel data)?  setupUserData,TResult Function( String message,  String? endpoint)?  sendMessage,TResult Function( String imagePath,  String? endpoint)?  sendImage,TResult Function( ChatMessage message)?  addMessage,TResult Function()?  onRegistered,TResult Function( ChatMessage message)?  startEditing,TResult Function()?  cancelEditing,TResult Function( int messageId,  String content)?  editMessage,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( HilolChatConfig config,  HilolChatRegisterModel? userData,  void Function()? onSuccess)?  initialize,TResult Function( int page)?  getMessages,TResult Function( HilolChatRegisterModel data,  void Function()? onSuccess,  void Function(String error)? onError)?  register,TResult Function( HilolChatRegisterModel data)?  setupUserData,TResult Function( String message,  String? endpoint)?  sendMessage,TResult Function( String imagePath,  String? endpoint)?  sendImage,TResult Function( ChatMessage message)?  addMessage,TResult Function()?  onRegistered,TResult Function( ChatMessage message)?  startEditing,TResult Function()?  cancelEditing,TResult Function( int messageId,  String content)?  editMessage,TResult Function( bool visible)?  setChatVisible,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initialize() when initialize != null:
 return initialize(_that.config,_that.userData,_that.onSuccess);case _GetMessages() when getMessages != null:
@@ -165,7 +168,8 @@ return addMessage(_that.message);case _OnRegistered() when onRegistered != null:
 return onRegistered();case _StartEditing() when startEditing != null:
 return startEditing(_that.message);case _CancelEditing() when cancelEditing != null:
 return cancelEditing();case _EditMessage() when editMessage != null:
-return editMessage(_that.messageId,_that.content);case _:
+return editMessage(_that.messageId,_that.content);case _SetChatVisible() when setChatVisible != null:
+return setChatVisible(_that.visible);case _:
   return orElse();
 
 }
@@ -183,7 +187,7 @@ return editMessage(_that.messageId,_that.content);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( HilolChatConfig config,  HilolChatRegisterModel? userData,  void Function()? onSuccess)  initialize,required TResult Function( int page)  getMessages,required TResult Function( HilolChatRegisterModel data,  void Function()? onSuccess,  void Function(String error)? onError)  register,required TResult Function( HilolChatRegisterModel data)  setupUserData,required TResult Function( String message,  String? endpoint)  sendMessage,required TResult Function( String imagePath,  String? endpoint)  sendImage,required TResult Function( ChatMessage message)  addMessage,required TResult Function()  onRegistered,required TResult Function( ChatMessage message)  startEditing,required TResult Function()  cancelEditing,required TResult Function( int messageId,  String content)  editMessage,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( HilolChatConfig config,  HilolChatRegisterModel? userData,  void Function()? onSuccess)  initialize,required TResult Function( int page)  getMessages,required TResult Function( HilolChatRegisterModel data,  void Function()? onSuccess,  void Function(String error)? onError)  register,required TResult Function( HilolChatRegisterModel data)  setupUserData,required TResult Function( String message,  String? endpoint)  sendMessage,required TResult Function( String imagePath,  String? endpoint)  sendImage,required TResult Function( ChatMessage message)  addMessage,required TResult Function()  onRegistered,required TResult Function( ChatMessage message)  startEditing,required TResult Function()  cancelEditing,required TResult Function( int messageId,  String content)  editMessage,required TResult Function( bool visible)  setChatVisible,}) {final _that = this;
 switch (_that) {
 case _Initialize():
 return initialize(_that.config,_that.userData,_that.onSuccess);case _GetMessages():
@@ -196,7 +200,8 @@ return addMessage(_that.message);case _OnRegistered():
 return onRegistered();case _StartEditing():
 return startEditing(_that.message);case _CancelEditing():
 return cancelEditing();case _EditMessage():
-return editMessage(_that.messageId,_that.content);}
+return editMessage(_that.messageId,_that.content);case _SetChatVisible():
+return setChatVisible(_that.visible);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -210,7 +215,7 @@ return editMessage(_that.messageId,_that.content);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( HilolChatConfig config,  HilolChatRegisterModel? userData,  void Function()? onSuccess)?  initialize,TResult? Function( int page)?  getMessages,TResult? Function( HilolChatRegisterModel data,  void Function()? onSuccess,  void Function(String error)? onError)?  register,TResult? Function( HilolChatRegisterModel data)?  setupUserData,TResult? Function( String message,  String? endpoint)?  sendMessage,TResult? Function( String imagePath,  String? endpoint)?  sendImage,TResult? Function( ChatMessage message)?  addMessage,TResult? Function()?  onRegistered,TResult? Function( ChatMessage message)?  startEditing,TResult? Function()?  cancelEditing,TResult? Function( int messageId,  String content)?  editMessage,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( HilolChatConfig config,  HilolChatRegisterModel? userData,  void Function()? onSuccess)?  initialize,TResult? Function( int page)?  getMessages,TResult? Function( HilolChatRegisterModel data,  void Function()? onSuccess,  void Function(String error)? onError)?  register,TResult? Function( HilolChatRegisterModel data)?  setupUserData,TResult? Function( String message,  String? endpoint)?  sendMessage,TResult? Function( String imagePath,  String? endpoint)?  sendImage,TResult? Function( ChatMessage message)?  addMessage,TResult? Function()?  onRegistered,TResult? Function( ChatMessage message)?  startEditing,TResult? Function()?  cancelEditing,TResult? Function( int messageId,  String content)?  editMessage,TResult? Function( bool visible)?  setChatVisible,}) {final _that = this;
 switch (_that) {
 case _Initialize() when initialize != null:
 return initialize(_that.config,_that.userData,_that.onSuccess);case _GetMessages() when getMessages != null:
@@ -223,7 +228,8 @@ return addMessage(_that.message);case _OnRegistered() when onRegistered != null:
 return onRegistered();case _StartEditing() when startEditing != null:
 return startEditing(_that.message);case _CancelEditing() when cancelEditing != null:
 return cancelEditing();case _EditMessage() when editMessage != null:
-return editMessage(_that.messageId,_that.content);case _:
+return editMessage(_that.messageId,_that.content);case _SetChatVisible() when setChatVisible != null:
+return setChatVisible(_that.visible);case _:
   return null;
 
 }
@@ -970,9 +976,81 @@ as String,
 }
 
 /// @nodoc
+
+
+class _SetChatVisible with DiagnosticableTreeMixin implements HilolChatEvent {
+  const _SetChatVisible(this.visible);
+  
+
+ final  bool visible;
+
+/// Create a copy of HilolChatEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$SetChatVisibleCopyWith<_SetChatVisible> get copyWith => __$SetChatVisibleCopyWithImpl<_SetChatVisible>(this, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'HilolChatEvent.setChatVisible'))
+    ..add(DiagnosticsProperty('visible', visible));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SetChatVisible&&(identical(other.visible, visible) || other.visible == visible));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,visible);
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'HilolChatEvent.setChatVisible(visible: $visible)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$SetChatVisibleCopyWith<$Res> implements $HilolChatEventCopyWith<$Res> {
+  factory _$SetChatVisibleCopyWith(_SetChatVisible value, $Res Function(_SetChatVisible) _then) = __$SetChatVisibleCopyWithImpl;
+@useResult
+$Res call({
+ bool visible
+});
+
+
+
+
+}
+/// @nodoc
+class __$SetChatVisibleCopyWithImpl<$Res>
+    implements _$SetChatVisibleCopyWith<$Res> {
+  __$SetChatVisibleCopyWithImpl(this._self, this._then);
+
+  final _SetChatVisible _self;
+  final $Res Function(_SetChatVisible) _then;
+
+/// Create a copy of HilolChatEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? visible = null,}) {
+  return _then(_SetChatVisible(
+null == visible ? _self.visible : visible // ignore: cast_nullable_to_non_nullable
+as bool,
+  ));
+}
+
+
+}
+
+/// @nodoc
 mixin _$HilolChatState implements DiagnosticableTreeMixin {
 
- FormzSubmissionStatus get status; List<ChatMessage> get messages; String? get defaultEndpoint; bool get isRegistered; bool get hasMoreMessages; int get currentPage; String? get errorMessage; HilolChatRegisterModel? get defaultUserData; ChatMessage? get editingMessage;
+ FormzSubmissionStatus get status; List<ChatMessage> get messages; String? get defaultEndpoint; bool get isRegistered; bool get hasMoreMessages; int get currentPage; String? get errorMessage; HilolChatRegisterModel? get defaultUserData; ChatMessage? get editingMessage; bool get isChatPageVisible;
 /// Create a copy of HilolChatState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -984,21 +1062,21 @@ $HilolChatStateCopyWith<HilolChatState> get copyWith => _$HilolChatStateCopyWith
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'HilolChatState'))
-    ..add(DiagnosticsProperty('status', status))..add(DiagnosticsProperty('messages', messages))..add(DiagnosticsProperty('defaultEndpoint', defaultEndpoint))..add(DiagnosticsProperty('isRegistered', isRegistered))..add(DiagnosticsProperty('hasMoreMessages', hasMoreMessages))..add(DiagnosticsProperty('currentPage', currentPage))..add(DiagnosticsProperty('errorMessage', errorMessage))..add(DiagnosticsProperty('defaultUserData', defaultUserData))..add(DiagnosticsProperty('editingMessage', editingMessage));
+    ..add(DiagnosticsProperty('status', status))..add(DiagnosticsProperty('messages', messages))..add(DiagnosticsProperty('defaultEndpoint', defaultEndpoint))..add(DiagnosticsProperty('isRegistered', isRegistered))..add(DiagnosticsProperty('hasMoreMessages', hasMoreMessages))..add(DiagnosticsProperty('currentPage', currentPage))..add(DiagnosticsProperty('errorMessage', errorMessage))..add(DiagnosticsProperty('defaultUserData', defaultUserData))..add(DiagnosticsProperty('editingMessage', editingMessage))..add(DiagnosticsProperty('isChatPageVisible', isChatPageVisible));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HilolChatState&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.messages, messages)&&(identical(other.defaultEndpoint, defaultEndpoint) || other.defaultEndpoint == defaultEndpoint)&&(identical(other.isRegistered, isRegistered) || other.isRegistered == isRegistered)&&(identical(other.hasMoreMessages, hasMoreMessages) || other.hasMoreMessages == hasMoreMessages)&&(identical(other.currentPage, currentPage) || other.currentPage == currentPage)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.defaultUserData, defaultUserData) || other.defaultUserData == defaultUserData)&&(identical(other.editingMessage, editingMessage) || other.editingMessage == editingMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HilolChatState&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.messages, messages)&&(identical(other.defaultEndpoint, defaultEndpoint) || other.defaultEndpoint == defaultEndpoint)&&(identical(other.isRegistered, isRegistered) || other.isRegistered == isRegistered)&&(identical(other.hasMoreMessages, hasMoreMessages) || other.hasMoreMessages == hasMoreMessages)&&(identical(other.currentPage, currentPage) || other.currentPage == currentPage)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.defaultUserData, defaultUserData) || other.defaultUserData == defaultUserData)&&(identical(other.editingMessage, editingMessage) || other.editingMessage == editingMessage)&&(identical(other.isChatPageVisible, isChatPageVisible) || other.isChatPageVisible == isChatPageVisible));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,status,const DeepCollectionEquality().hash(messages),defaultEndpoint,isRegistered,hasMoreMessages,currentPage,errorMessage,defaultUserData,editingMessage);
+int get hashCode => Object.hash(runtimeType,status,const DeepCollectionEquality().hash(messages),defaultEndpoint,isRegistered,hasMoreMessages,currentPage,errorMessage,defaultUserData,editingMessage,isChatPageVisible);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'HilolChatState(status: $status, messages: $messages, defaultEndpoint: $defaultEndpoint, isRegistered: $isRegistered, hasMoreMessages: $hasMoreMessages, currentPage: $currentPage, errorMessage: $errorMessage, defaultUserData: $defaultUserData, editingMessage: $editingMessage)';
+  return 'HilolChatState(status: $status, messages: $messages, defaultEndpoint: $defaultEndpoint, isRegistered: $isRegistered, hasMoreMessages: $hasMoreMessages, currentPage: $currentPage, errorMessage: $errorMessage, defaultUserData: $defaultUserData, editingMessage: $editingMessage, isChatPageVisible: $isChatPageVisible)';
 }
 
 
@@ -1009,7 +1087,7 @@ abstract mixin class $HilolChatStateCopyWith<$Res>  {
   factory $HilolChatStateCopyWith(HilolChatState value, $Res Function(HilolChatState) _then) = _$HilolChatStateCopyWithImpl;
 @useResult
 $Res call({
- FormzSubmissionStatus status, List<ChatMessage> messages, String? defaultEndpoint, bool isRegistered, bool hasMoreMessages, int currentPage, String? errorMessage, HilolChatRegisterModel? defaultUserData, ChatMessage? editingMessage
+ FormzSubmissionStatus status, List<ChatMessage> messages, String? defaultEndpoint, bool isRegistered, bool hasMoreMessages, int currentPage, String? errorMessage, HilolChatRegisterModel? defaultUserData, ChatMessage? editingMessage, bool isChatPageVisible
 });
 
 
@@ -1026,7 +1104,7 @@ class _$HilolChatStateCopyWithImpl<$Res>
 
 /// Create a copy of HilolChatState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? messages = null,Object? defaultEndpoint = freezed,Object? isRegistered = null,Object? hasMoreMessages = null,Object? currentPage = null,Object? errorMessage = freezed,Object? defaultUserData = freezed,Object? editingMessage = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? messages = null,Object? defaultEndpoint = freezed,Object? isRegistered = null,Object? hasMoreMessages = null,Object? currentPage = null,Object? errorMessage = freezed,Object? defaultUserData = freezed,Object? editingMessage = freezed,Object? isChatPageVisible = null,}) {
   return _then(_self.copyWith(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as FormzSubmissionStatus,messages: null == messages ? _self.messages : messages // ignore: cast_nullable_to_non_nullable
@@ -1037,7 +1115,8 @@ as bool,currentPage: null == currentPage ? _self.currentPage : currentPage // ig
 as int,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
 as String?,defaultUserData: freezed == defaultUserData ? _self.defaultUserData : defaultUserData // ignore: cast_nullable_to_non_nullable
 as HilolChatRegisterModel?,editingMessage: freezed == editingMessage ? _self.editingMessage : editingMessage // ignore: cast_nullable_to_non_nullable
-as ChatMessage?,
+as ChatMessage?,isChatPageVisible: null == isChatPageVisible ? _self.isChatPageVisible : isChatPageVisible // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
@@ -1119,10 +1198,10 @@ return initial(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( FormzSubmissionStatus status,  List<ChatMessage> messages,  String? defaultEndpoint,  bool isRegistered,  bool hasMoreMessages,  int currentPage,  String? errorMessage,  HilolChatRegisterModel? defaultUserData,  ChatMessage? editingMessage)?  initial,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( FormzSubmissionStatus status,  List<ChatMessage> messages,  String? defaultEndpoint,  bool isRegistered,  bool hasMoreMessages,  int currentPage,  String? errorMessage,  HilolChatRegisterModel? defaultUserData,  ChatMessage? editingMessage,  bool isChatPageVisible)?  initial,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
-return initial(_that.status,_that.messages,_that.defaultEndpoint,_that.isRegistered,_that.hasMoreMessages,_that.currentPage,_that.errorMessage,_that.defaultUserData,_that.editingMessage);case _:
+return initial(_that.status,_that.messages,_that.defaultEndpoint,_that.isRegistered,_that.hasMoreMessages,_that.currentPage,_that.errorMessage,_that.defaultUserData,_that.editingMessage,_that.isChatPageVisible);case _:
   return orElse();
 
 }
@@ -1140,10 +1219,10 @@ return initial(_that.status,_that.messages,_that.defaultEndpoint,_that.isRegiste
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( FormzSubmissionStatus status,  List<ChatMessage> messages,  String? defaultEndpoint,  bool isRegistered,  bool hasMoreMessages,  int currentPage,  String? errorMessage,  HilolChatRegisterModel? defaultUserData,  ChatMessage? editingMessage)  initial,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( FormzSubmissionStatus status,  List<ChatMessage> messages,  String? defaultEndpoint,  bool isRegistered,  bool hasMoreMessages,  int currentPage,  String? errorMessage,  HilolChatRegisterModel? defaultUserData,  ChatMessage? editingMessage,  bool isChatPageVisible)  initial,}) {final _that = this;
 switch (_that) {
 case _Initial():
-return initial(_that.status,_that.messages,_that.defaultEndpoint,_that.isRegistered,_that.hasMoreMessages,_that.currentPage,_that.errorMessage,_that.defaultUserData,_that.editingMessage);}
+return initial(_that.status,_that.messages,_that.defaultEndpoint,_that.isRegistered,_that.hasMoreMessages,_that.currentPage,_that.errorMessage,_that.defaultUserData,_that.editingMessage,_that.isChatPageVisible);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -1157,10 +1236,10 @@ return initial(_that.status,_that.messages,_that.defaultEndpoint,_that.isRegiste
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( FormzSubmissionStatus status,  List<ChatMessage> messages,  String? defaultEndpoint,  bool isRegistered,  bool hasMoreMessages,  int currentPage,  String? errorMessage,  HilolChatRegisterModel? defaultUserData,  ChatMessage? editingMessage)?  initial,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( FormzSubmissionStatus status,  List<ChatMessage> messages,  String? defaultEndpoint,  bool isRegistered,  bool hasMoreMessages,  int currentPage,  String? errorMessage,  HilolChatRegisterModel? defaultUserData,  ChatMessage? editingMessage,  bool isChatPageVisible)?  initial,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
-return initial(_that.status,_that.messages,_that.defaultEndpoint,_that.isRegistered,_that.hasMoreMessages,_that.currentPage,_that.errorMessage,_that.defaultUserData,_that.editingMessage);case _:
+return initial(_that.status,_that.messages,_that.defaultEndpoint,_that.isRegistered,_that.hasMoreMessages,_that.currentPage,_that.errorMessage,_that.defaultUserData,_that.editingMessage,_that.isChatPageVisible);case _:
   return null;
 
 }
@@ -1172,7 +1251,7 @@ return initial(_that.status,_that.messages,_that.defaultEndpoint,_that.isRegiste
 
 
 class _Initial with DiagnosticableTreeMixin implements HilolChatState {
-  const _Initial({this.status = FormzSubmissionStatus.initial, final  List<ChatMessage> messages = const [], this.defaultEndpoint, this.isRegistered = false, this.hasMoreMessages = false, this.currentPage = 1, this.errorMessage, this.defaultUserData, this.editingMessage}): _messages = messages;
+  const _Initial({this.status = FormzSubmissionStatus.initial, final  List<ChatMessage> messages = const [], this.defaultEndpoint, this.isRegistered = false, this.hasMoreMessages = false, this.currentPage = 1, this.errorMessage, this.defaultUserData, this.editingMessage, this.isChatPageVisible = false}): _messages = messages;
   
 
 @override@JsonKey() final  FormzSubmissionStatus status;
@@ -1190,6 +1269,7 @@ class _Initial with DiagnosticableTreeMixin implements HilolChatState {
 @override final  String? errorMessage;
 @override final  HilolChatRegisterModel? defaultUserData;
 @override final  ChatMessage? editingMessage;
+@override@JsonKey() final  bool isChatPageVisible;
 
 /// Create a copy of HilolChatState
 /// with the given fields replaced by the non-null parameter values.
@@ -1202,21 +1282,21 @@ _$InitialCopyWith<_Initial> get copyWith => __$InitialCopyWithImpl<_Initial>(thi
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'HilolChatState.initial'))
-    ..add(DiagnosticsProperty('status', status))..add(DiagnosticsProperty('messages', messages))..add(DiagnosticsProperty('defaultEndpoint', defaultEndpoint))..add(DiagnosticsProperty('isRegistered', isRegistered))..add(DiagnosticsProperty('hasMoreMessages', hasMoreMessages))..add(DiagnosticsProperty('currentPage', currentPage))..add(DiagnosticsProperty('errorMessage', errorMessage))..add(DiagnosticsProperty('defaultUserData', defaultUserData))..add(DiagnosticsProperty('editingMessage', editingMessage));
+    ..add(DiagnosticsProperty('status', status))..add(DiagnosticsProperty('messages', messages))..add(DiagnosticsProperty('defaultEndpoint', defaultEndpoint))..add(DiagnosticsProperty('isRegistered', isRegistered))..add(DiagnosticsProperty('hasMoreMessages', hasMoreMessages))..add(DiagnosticsProperty('currentPage', currentPage))..add(DiagnosticsProperty('errorMessage', errorMessage))..add(DiagnosticsProperty('defaultUserData', defaultUserData))..add(DiagnosticsProperty('editingMessage', editingMessage))..add(DiagnosticsProperty('isChatPageVisible', isChatPageVisible));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Initial&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other._messages, _messages)&&(identical(other.defaultEndpoint, defaultEndpoint) || other.defaultEndpoint == defaultEndpoint)&&(identical(other.isRegistered, isRegistered) || other.isRegistered == isRegistered)&&(identical(other.hasMoreMessages, hasMoreMessages) || other.hasMoreMessages == hasMoreMessages)&&(identical(other.currentPage, currentPage) || other.currentPage == currentPage)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.defaultUserData, defaultUserData) || other.defaultUserData == defaultUserData)&&(identical(other.editingMessage, editingMessage) || other.editingMessage == editingMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Initial&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other._messages, _messages)&&(identical(other.defaultEndpoint, defaultEndpoint) || other.defaultEndpoint == defaultEndpoint)&&(identical(other.isRegistered, isRegistered) || other.isRegistered == isRegistered)&&(identical(other.hasMoreMessages, hasMoreMessages) || other.hasMoreMessages == hasMoreMessages)&&(identical(other.currentPage, currentPage) || other.currentPage == currentPage)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.defaultUserData, defaultUserData) || other.defaultUserData == defaultUserData)&&(identical(other.editingMessage, editingMessage) || other.editingMessage == editingMessage)&&(identical(other.isChatPageVisible, isChatPageVisible) || other.isChatPageVisible == isChatPageVisible));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,status,const DeepCollectionEquality().hash(_messages),defaultEndpoint,isRegistered,hasMoreMessages,currentPage,errorMessage,defaultUserData,editingMessage);
+int get hashCode => Object.hash(runtimeType,status,const DeepCollectionEquality().hash(_messages),defaultEndpoint,isRegistered,hasMoreMessages,currentPage,errorMessage,defaultUserData,editingMessage,isChatPageVisible);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'HilolChatState.initial(status: $status, messages: $messages, defaultEndpoint: $defaultEndpoint, isRegistered: $isRegistered, hasMoreMessages: $hasMoreMessages, currentPage: $currentPage, errorMessage: $errorMessage, defaultUserData: $defaultUserData, editingMessage: $editingMessage)';
+  return 'HilolChatState.initial(status: $status, messages: $messages, defaultEndpoint: $defaultEndpoint, isRegistered: $isRegistered, hasMoreMessages: $hasMoreMessages, currentPage: $currentPage, errorMessage: $errorMessage, defaultUserData: $defaultUserData, editingMessage: $editingMessage, isChatPageVisible: $isChatPageVisible)';
 }
 
 
@@ -1227,7 +1307,7 @@ abstract mixin class _$InitialCopyWith<$Res> implements $HilolChatStateCopyWith<
   factory _$InitialCopyWith(_Initial value, $Res Function(_Initial) _then) = __$InitialCopyWithImpl;
 @override @useResult
 $Res call({
- FormzSubmissionStatus status, List<ChatMessage> messages, String? defaultEndpoint, bool isRegistered, bool hasMoreMessages, int currentPage, String? errorMessage, HilolChatRegisterModel? defaultUserData, ChatMessage? editingMessage
+ FormzSubmissionStatus status, List<ChatMessage> messages, String? defaultEndpoint, bool isRegistered, bool hasMoreMessages, int currentPage, String? errorMessage, HilolChatRegisterModel? defaultUserData, ChatMessage? editingMessage, bool isChatPageVisible
 });
 
 
@@ -1244,7 +1324,7 @@ class __$InitialCopyWithImpl<$Res>
 
 /// Create a copy of HilolChatState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? messages = null,Object? defaultEndpoint = freezed,Object? isRegistered = null,Object? hasMoreMessages = null,Object? currentPage = null,Object? errorMessage = freezed,Object? defaultUserData = freezed,Object? editingMessage = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? messages = null,Object? defaultEndpoint = freezed,Object? isRegistered = null,Object? hasMoreMessages = null,Object? currentPage = null,Object? errorMessage = freezed,Object? defaultUserData = freezed,Object? editingMessage = freezed,Object? isChatPageVisible = null,}) {
   return _then(_Initial(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as FormzSubmissionStatus,messages: null == messages ? _self._messages : messages // ignore: cast_nullable_to_non_nullable
@@ -1255,7 +1335,8 @@ as bool,currentPage: null == currentPage ? _self.currentPage : currentPage // ig
 as int,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
 as String?,defaultUserData: freezed == defaultUserData ? _self.defaultUserData : defaultUserData // ignore: cast_nullable_to_non_nullable
 as HilolChatRegisterModel?,editingMessage: freezed == editingMessage ? _self.editingMessage : editingMessage // ignore: cast_nullable_to_non_nullable
-as ChatMessage?,
+as ChatMessage?,isChatPageVisible: null == isChatPageVisible ? _self.isChatPageVisible : isChatPageVisible // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

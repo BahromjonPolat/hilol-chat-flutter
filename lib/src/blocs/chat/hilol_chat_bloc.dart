@@ -10,7 +10,9 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hilol_chat_flutter/hilol_chat_flutter.dart';
+import 'package:hilol_chat_flutter/src/ui/widgets/hilol_chat_notification_banner.dart';
 import 'package:fcrm_chat_sdk/fcrm_chat_sdk.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:formz/formz.dart';
@@ -27,12 +29,18 @@ class HilolChatBloc extends Bloc<HilolChatEvent, HilolChatState> {
   final ChatRepository chatRepository;
   StreamSubscription<ChatMessage>? _messageSubscription;
 
+  GlobalKey<NavigatorState>? _navigatorKey;
+  void Function()? _onNotificationTap;
+  OverlayEntry? _notificationEntry;
+
   HilolChatBloc()
     : chatRepository = ChatRepositoryImpl(),
       super(const HilolChatState.initial()) {
     on<HilolChatEvent>((event, emit) async {
       await event.when(
         initialize: (config, userData, onSuccess) async {
+          _navigatorKey = config.navigatorKey;
+          _onNotificationTap = config.onNotificationTap;
           emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
           final result = await chatRepository.initialize(config: config);
 
@@ -49,7 +57,7 @@ class HilolChatBloc extends Bloc<HilolChatEvent, HilolChatState> {
               _messageSubscription = chatRepository.messageStream?.listen((
                 message,
               ) {
-                if (message.isUpdated) {
+                if (message.isEdited) {
                   return;
                 }
                 add(HilolChatEvent.addMessage(message));
@@ -279,14 +287,57 @@ class HilolChatBloc extends Bloc<HilolChatEvent, HilolChatState> {
             }
           }
           emit(state.copyWith(messages: messages));
+
+          if (!message.isUserMessage && !state.isChatPageVisible) {
+            _showNotification(message);
+          }
+        },
+        setChatVisible: (visible) {
+          emit(state.copyWith(isChatPageVisible: visible));
+          if (visible) {
+            _dismissNotification();
+          }
         },
       );
     });
   }
 
+  void _showNotification(ChatMessage message) {
+    final overlay = _navigatorKey?.currentState?.overlay;
+    if (overlay == null) return;
+
+    _dismissNotification();
+
+    late OverlayEntry entry;
+
+    void dismiss() {
+      if (_notificationEntry == entry) {
+        entry.remove();
+        _notificationEntry = null;
+      }
+    }
+
+    entry = OverlayEntry(
+      builder: (context) => HilolChatNotificationBanner(
+        message: message,
+        onTap: _onNotificationTap,
+        onDismiss: dismiss,
+      ),
+    );
+
+    _notificationEntry = entry;
+    overlay.insert(entry);
+  }
+
+  void _dismissNotification() {
+    _notificationEntry?.remove();
+    _notificationEntry = null;
+  }
+
   @override
   Future<void> close() async {
     _messageSubscription?.cancel();
+    _dismissNotification();
     await chatRepository.dispose();
     return super.close();
   }

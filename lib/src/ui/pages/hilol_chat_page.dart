@@ -26,10 +26,13 @@ class HilolChatPage extends StatefulWidget {
 class _HilolChatPageState extends State<HilolChatPage> {
   final scrollController = ScrollController(initialScrollOffset: 100000);
   final inputController = TextEditingController();
+  late HilolChatBloc _bloc;
 
   @override
   void initState() {
     super.initState();
+    _bloc = context.read<HilolChatBloc>();
+    _bloc.add(const HilolChatEvent.setChatVisible(true));
   }
 
   @override
@@ -131,6 +134,7 @@ class _HilolChatPageState extends State<HilolChatPage> {
 
   @override
   void dispose() {
+    _bloc.add(const HilolChatEvent.setChatVisible(false));
     inputController.dispose();
     super.dispose();
   }
