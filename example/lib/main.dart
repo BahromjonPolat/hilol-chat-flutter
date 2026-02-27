@@ -4,14 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:hilol_chat_flutter/hilol_chat_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final pref = await SharedPreferences.getInstance();
-  await pref.clear();
+  // final pref = await SharedPreferences.getInstance();
+  // await pref.clear();
   runApp(const MyApp());
 }
+
+final _navigatorKey = GlobalKey<NavigatorState>();
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -33,6 +35,12 @@ class MyApp extends StatelessWidget {
                   socketUrl: Env.socketUrl,
                   enableLogging: kDebugMode,
                   defaultEndpoint: 'Chat Example',
+                  navigatorKey: _navigatorKey,
+                  onNotificationTap: () {
+                    _navigatorKey.currentState?.push(
+                      MaterialPageRoute(builder: (_) => const HilolChatPage()),
+                    );
+                  },
                 ),
                 userData: HilolChatRegisterModel(
                   name: 'Example user',
@@ -45,6 +53,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+        navigatorKey: _navigatorKey,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primaryColor: Color(0xFF0085FF),

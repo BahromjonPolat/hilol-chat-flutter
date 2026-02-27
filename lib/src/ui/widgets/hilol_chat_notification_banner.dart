@@ -73,60 +73,67 @@ class _HilolChatNotificationBannerState
               _dismiss();
               widget.onTap?.call();
             },
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-              decoration: BoxDecoration(
-                color: Theme.of(context).cardColor,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.15),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    radius: 20,
-                    backgroundColor: Theme.of(context).primaryColor,
-                    child: const Icon(
-                      Icons.message_rounded,
-                      color: Colors.white,
-                      size: 18,
+            child: Material(
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 10,
+                ),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).cardColor,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.15),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
                     ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          widget.message.senderName ?? '',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 13,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          (widget.message.metadata?['is_image'] == true) ? '📷 Photo' : widget.message.content,
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Theme.of(context).hintColor,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 20,
+                      backgroundColor: Theme.of(context).primaryColor,
+                      child: const Icon(
+                        Icons.message_rounded,
+                        color: Colors.white,
+                        size: 18,
+                      ),
                     ),
-                  ),
-                ],
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            widget.message.senderName ?? '',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 13,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            (widget.message.isImage)
+                                ? '📷 Photo'
+                                : widget.message.content,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Theme.of(context).hintColor,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
