@@ -132,71 +132,79 @@ class HilolChatBubble extends StatelessWidget {
                     ),
                     child: IntrinsicWidth(
                       child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        message.isImage
-                            ? HilolChatImage(
-                                imageUrl: message.content,
-                                imageMeta: message.imageMeta,
-                              )
-                            : Text(
-                                message.content,
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  color: isUserMessage ? Colors.white : null,
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          message.isImage
+                              ? HilolChatImage(
+                                  imageUrl: message.content,
+                                  imageMeta: message.imageMeta,
+                                )
+                              : Text(
+                                  message.content,
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: isUserMessage ? Colors.white : null,
+                                  ),
                                 ),
-                              ),
-                        const SizedBox(height: 4),
-                        Row(
-                          spacing: 7,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            if (isUserMessage) ...{
-                              Text(
-                                AppDateUtils.formatDate(
-                                  message.createdAt.toLocal(),
-                                  format: 'hh:mm',
+                          const SizedBox(height: 4),
+                          Row(
+                            spacing: 7,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              if (message.isEdited)
+                                Text(
+                                  Strings.message_actions_edited.tr(),
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: isUserMessage
+                                        ? Colors.white70
+                                        : HilolChatColors.grey,
+                                  ),
                                 ),
-                                style: const TextStyle(
-                                  fontSize: 10,
+                              if (isUserMessage) ...{
+                                Text(
+                                  AppDateUtils.formatDate(
+                                    message.createdAt.toLocal(),
+                                    format: 'hh:mm',
+                                  ),
+                                  style: const TextStyle(
+                                    fontSize: 10,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Icon(
+                                  message.isRead ? Icons.done_all : Icons.done,
                                   color: Colors.white,
+                                  size: 20,
                                 ),
-                              ),
-                              Icon(
-                                message.isRead
-                                    ? Icons.done_all
-                                    : Icons.done,
-                                color: Colors.white,
-                                size: 20,
-                              ),
-                            } else ...{
-                              Text.rich(
-                                TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: '${message.senderName} / ',
-                                    ),
-                                    TextSpan(
-                                      text: AppDateUtils.formatDate(
-                                        message.createdAt.toLocal(),
-                                        format: 'hh:mm',
+                              } else ...{
+                                Text.rich(
+                                  TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: '${message.senderName} / ',
                                       ),
-                                    ),
-                                  ],
+                                      TextSpan(
+                                        text: AppDateUtils.formatDate(
+                                          message.createdAt.toLocal(),
+                                          format: 'hh:mm',
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  style: const TextStyle(
+                                    fontSize: 10,
+                                    color: HilolChatColors.grey,
+                                  ),
                                 ),
-                                style: const TextStyle(
-                                  fontSize: 10,
-                                  color: HilolChatColors.grey,
-                                ),
-                              ),
-                            },
-                          ],
-                        ),
-                      ],
-                    ),
+                              },
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

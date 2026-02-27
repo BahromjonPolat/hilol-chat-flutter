@@ -5,7 +5,7 @@
 
 */
 
-const Map<String, Map<String, Map<String, String>>> translations = {
+const translations = {
   'uz': {
     'general': {
       'chat': 'Chat',
@@ -29,6 +29,7 @@ const Map<String, Map<String, Map<String, String>>> translations = {
       'forward': 'Yo\'naltirish',
       'copy': 'Nusxa olish',
       'select': 'Tanlash',
+      'edited': 'Tahrirlangan',
     },
     'time': {
       'today': 'Bugun',
@@ -63,7 +64,8 @@ const Map<String, Map<String, Map<String, String>>> translations = {
     },
     'register': {
       'greeting': 'Assalamu alaykum, qanday yordam bera olamiz?',
-      'instruction': 'Iltimos chatni boshlash uchun quyidagi ma\'lumotlarni to\'ldiring!',
+      'instruction':
+          'Iltimos chatni boshlash uchun quyidagi ma\'lumotlarni to\'ldiring!',
       'name_label': 'Ism',
       'name_placeholder': 'Ismingizni kiriting',
       'email_or_phone_label': 'Email yoki telefon',
@@ -72,7 +74,8 @@ const Map<String, Map<String, Map<String, String>>> translations = {
       'name_required': 'Ism kiritish majburiy',
       'name_too_short': 'Ism kamida 2 ta belgidan iborat bo\'lishi kerak',
       'email_or_phone_required': 'Email yoki telefon kiritish majburiy',
-      'email_or_phone_invalid': 'Iltimos to\'g\'ri email yoki telefon raqam kiriting',
+      'email_or_phone_invalid':
+          'Iltimos to\'g\'ri email yoki telefon raqam kiriting',
     },
   },
   'uz-Cyrl': {
@@ -98,6 +101,7 @@ const Map<String, Map<String, Map<String, String>>> translations = {
       'forward': 'Йўналтириш',
       'copy': 'Нусха олиш',
       'select': 'Танлаш',
+      'edited': 'Таҳрирланган',
     },
     'time': {
       'today': 'Бугун',
@@ -132,7 +136,8 @@ const Map<String, Map<String, Map<String, String>>> translations = {
     },
     'register': {
       'greeting': 'Ассалому алайкум, қандай ёрдам бера оламиз?',
-      'instruction': 'Илтимос чатни бошлаш учун қуйидаги маълумотларни тўлдиринг!',
+      'instruction':
+          'Илтимос чатни бошлаш учун қуйидаги маълумотларни тўлдиринг!',
       'name_label': 'Исм',
       'name_placeholder': 'Исмингизни киритинг',
       'email_or_phone_label': 'Email ёки телефон',
@@ -141,7 +146,8 @@ const Map<String, Map<String, Map<String, String>>> translations = {
       'name_required': 'Исм киритиш мажбурий',
       'name_too_short': 'Исм камида 2 та белгидан иборат бўлиши керак',
       'email_or_phone_required': 'Email ёки телефон киритиш мажбурий',
-      'email_or_phone_invalid': 'Илтимос тўғри email ёки телефон рақам киритинг',
+      'email_or_phone_invalid':
+          'Илтимос тўғри email ёки телефон рақам киритинг',
     },
   },
   'ru': {
@@ -167,6 +173,7 @@ const Map<String, Map<String, Map<String, String>>> translations = {
       'forward': 'Переслать',
       'copy': 'Копировать',
       'select': 'Выбрать',
+      'edited': 'Изменено',
     },
     'time': {
       'today': 'Сегодня',
@@ -201,7 +208,8 @@ const Map<String, Map<String, Map<String, String>>> translations = {
     },
     'register': {
       'greeting': 'Здравствуйте, чем можем помочь?',
-      'instruction': 'Пожалуйста, заполните следующую информацию для начала чата!',
+      'instruction':
+          'Пожалуйста, заполните следующую информацию для начала чата!',
       'name_label': 'Имя',
       'name_placeholder': 'Введите ваше имя',
       'email_or_phone_label': 'Email или телефон',
@@ -210,7 +218,8 @@ const Map<String, Map<String, Map<String, String>>> translations = {
       'name_required': 'Имя обязательно',
       'name_too_short': 'Имя должно содержать минимум 2 символа',
       'email_or_phone_required': 'Email или телефон обязательны',
-      'email_or_phone_invalid': 'Пожалуйста, введите правильный email или номер телефона',
+      'email_or_phone_invalid':
+          'Пожалуйста, введите правильный email или номер телефона',
     },
   },
   'en': {
@@ -236,6 +245,7 @@ const Map<String, Map<String, Map<String, String>>> translations = {
       'forward': 'Forward',
       'copy': 'Copy',
       'select': 'Select',
+      'edited': 'Edited',
     },
     'time': {
       'today': 'Today',
@@ -270,7 +280,8 @@ const Map<String, Map<String, Map<String, String>>> translations = {
     },
     'register': {
       'greeting': 'Hello, how can we help you?',
-      'instruction': 'Please fill in the following information to start the chat!',
+      'instruction':
+          'Please fill in the following information to start the chat!',
       'name_label': 'Name',
       'name_placeholder': 'Enter your name',
       'email_or_phone_label': 'Email or phone',
@@ -305,6 +316,7 @@ const Map<String, Map<String, Map<String, String>>> translations = {
       'forward': 'İlet',
       'copy': 'Kopyala',
       'select': 'Seç',
+      'edited': 'Düzenlendi',
     },
     'time': {
       'today': 'Bugün',
@@ -339,7 +351,8 @@ const Map<String, Map<String, Map<String, String>>> translations = {
     },
     'register': {
       'greeting': 'Merhaba, size nasıl yardımcı olabiliriz?',
-      'instruction': 'Sohbeti başlatmak için lütfen aşağıdaki bilgileri doldurun!',
+      'instruction':
+          'Sohbeti başlatmak için lütfen aşağıdaki bilgileri doldurun!',
       'name_label': 'İsim',
       'name_placeholder': 'İsminizi girin',
       'email_or_phone_label': 'Email veya telefon',
@@ -348,7 +361,8 @@ const Map<String, Map<String, Map<String, String>>> translations = {
       'name_required': 'İsim zorunludur',
       'name_too_short': 'İsim en az 2 karakter olmalıdır',
       'email_or_phone_required': 'Email veya telefon zorunludur',
-      'email_or_phone_invalid': 'Lütfen geçerli bir email veya telefon numarası girin',
+      'email_or_phone_invalid':
+          'Lütfen geçerli bir email veya telefon numarası girin',
     },
   },
   'kaa': {
@@ -374,6 +388,7 @@ const Map<String, Map<String, Map<String, String>>> translations = {
       'forward': 'Jiberiw',
       'copy': 'Kóshiriw',
       'select': 'Tańlaw',
+      'edited': 'Ózgertirilgen',
     },
     'time': {
       'today': 'Búgin',
@@ -408,7 +423,8 @@ const Map<String, Map<String, Map<String, String>>> translations = {
     },
     'register': {
       'greeting': 'Assalawma áleykum, qanday járdem bere alamız?',
-      'instruction': 'Iltimas chatni baslaw ushın tómendegi maǵlıwmatlardı toltırıń!',
+      'instruction':
+          'Iltimas chatni baslaw ushın tómendegi maǵlıwmatlardı toltırıń!',
       'name_label': 'At',
       'name_placeholder': 'Atıńızdı kiritiń',
       'email_or_phone_label': 'Email yáki telefon',
@@ -417,7 +433,8 @@ const Map<String, Map<String, Map<String, String>>> translations = {
       'name_required': 'At kiritiw májbúriy',
       'name_too_short': 'At keminde 2 belgiden ibarat bolıwı kerek',
       'email_or_phone_required': 'Email yáki telefon kiritiw májbúriy',
-      'email_or_phone_invalid': 'Iltimas durıs email yáki telefon nomer kiritiń',
+      'email_or_phone_invalid':
+          'Iltimas durıs email yáki telefon nomer kiritiń',
     },
   },
   'tg': {
@@ -443,6 +460,7 @@ const Map<String, Map<String, Map<String, String>>> translations = {
       'forward': 'Фиристодан',
       'copy': 'Нусха бардоштан',
       'select': 'Интихоб кардан',
+      'edited': 'Таҳрир карда шуд',
     },
     'time': {
       'today': 'Имрӯз',
@@ -486,7 +504,8 @@ const Map<String, Map<String, Map<String, String>>> translations = {
       'name_required': 'Ном ҳатмист',
       'name_too_short': 'Ном бояд ҳадди ақал аз 2 рамз иборат бошад',
       'email_or_phone_required': 'Email ё телефон ҳатмист',
-      'email_or_phone_invalid': 'Лутфан email ё рақами телефони дурустро ворид кунед',
+      'email_or_phone_invalid':
+          'Лутфан email ё рақами телефони дурустро ворид кунед',
     },
   },
   'kk': {
@@ -512,6 +531,7 @@ const Map<String, Map<String, Map<String, String>>> translations = {
       'forward': 'Жіберу',
       'copy': 'Көшіру',
       'select': 'Таңдау',
+      'edited': 'Өңделген',
     },
     'time': {
       'today': 'Бүгін',
@@ -550,7 +570,8 @@ const Map<String, Map<String, Map<String, String>>> translations = {
       'name_label': 'Аты',
       'name_placeholder': 'Атыңызды енгізіңіз',
       'email_or_phone_label': 'Email немесе телефон',
-      'email_or_phone_placeholder': 'Email немесе телефон нөміріңізді енгізіңіз',
+      'email_or_phone_placeholder':
+          'Email немесе телефон нөміріңізді енгізіңіз',
       'start_button': 'Бастау',
       'name_required': 'Аты міндетті',
       'name_too_short': 'Аты кемінде 2 таңбадан тұруы керек',
@@ -581,6 +602,7 @@ const Map<String, Map<String, Map<String, String>>> translations = {
       'forward': 'Өткөрүү',
       'copy': 'Көчүрүү',
       'select': 'Тандоо',
+      'edited': 'Түзөтүлгөн',
     },
     'time': {
       'today': 'Бүгүн',
@@ -650,6 +672,7 @@ const Map<String, Map<String, Map<String, String>>> translations = {
       'forward': 'Ugrat',
       'copy': 'Göçür',
       'select': 'Saýla',
+      'edited': 'Üýtgedilen',
     },
     'time': {
       'today': 'Şu gün',

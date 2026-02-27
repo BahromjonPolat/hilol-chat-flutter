@@ -30,6 +30,7 @@ abstract final class Strings {
   static const message_actions_forward = 'message_actions.forward';
   static const message_actions_copy = 'message_actions.copy';
   static const message_actions_select = 'message_actions.select';
+  static const message_actions_edited = 'message_actions.edited';
 
   // Time
   static const time_today = 'time.today';
