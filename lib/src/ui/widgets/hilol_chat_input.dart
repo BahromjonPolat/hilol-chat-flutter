@@ -122,8 +122,7 @@ class _HilolChatMessageInputState extends State<HilolChatMessageInput> {
                             right: 0,
                             child: SendButton(
                               onPressed: () {
-                                final content =
-                                    widget.controller.text.trim();
+                                final content = widget.controller.text.trim();
                                 if (content.isEmpty) return;
 
                                 final bloc = context.read<HilolChatBloc>();
@@ -131,8 +130,7 @@ class _HilolChatMessageInputState extends State<HilolChatMessageInput> {
                                 if (bloc.state.editingMessage != null) {
                                   bloc.add(
                                     HilolChatEvent.editMessage(
-                                      messageId:
-                                          bloc.state.editingMessage!.id,
+                                      messageId: bloc.state.editingMessage!.id,
                                       content: content,
                                     ),
                                   );
@@ -149,14 +147,13 @@ class _HilolChatMessageInputState extends State<HilolChatMessageInput> {
                                         data: defaultUserData,
                                         onSuccess: () {
                                           bloc.add(
-                                            HilolChatEvent.sendMessage(
-                                              content,
-                                            ),
+                                            HilolChatEvent.sendMessage(content),
                                           );
                                         },
                                       ),
                                     );
                                     widget.controller.clear();
+                                    return;
                                   } else {
                                     context.push(
                                       HilolChatRegisterPage(
@@ -205,10 +202,7 @@ class _EditingBanner extends StatelessWidget {
         color: Theme.of(context).cardColor,
         border: Border(
           top: BorderSide(color: Theme.of(context).dividerColor, width: 0.5),
-          left: BorderSide(
-            color: Theme.of(context).primaryColor,
-            width: 3,
-          ),
+          left: BorderSide(color: Theme.of(context).primaryColor, width: 3),
         ),
       ),
       child: Row(

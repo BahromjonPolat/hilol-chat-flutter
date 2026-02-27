@@ -75,7 +75,8 @@ class HilolChatBloc extends Bloc<HilolChatEvent, HilolChatState> {
               if (userData == null) {
                 return;
               }
-              add(HilolChatEvent.register(data: userData));
+
+              // add(HilolChatEvent.register(data: userData));
             },
           );
         },
@@ -113,7 +114,9 @@ class HilolChatBloc extends Bloc<HilolChatEvent, HilolChatState> {
                 ),
               );
               onSuccess?.call();
-              add(const HilolChatEvent.getMessages());
+              if (onSuccess == null) {
+                add(const HilolChatEvent.getMessages());
+              }
             },
           );
         },

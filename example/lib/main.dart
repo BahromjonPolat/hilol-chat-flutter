@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:hilol_chat_flutter/hilol_chat_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // final pref = await SharedPreferences.getInstance();
-  // await pref.clear();
+  final pref = await SharedPreferences.getInstance();
+  await pref.clear();
   runApp(const MyApp());
 }
 
@@ -32,6 +33,11 @@ class MyApp extends StatelessWidget {
                   socketUrl: Env.socketUrl,
                   enableLogging: kDebugMode,
                   defaultEndpoint: 'Chat Example',
+                ),
+                userData: HilolChatRegisterModel(
+                  name: 'Example user',
+                  email: 'example@gmail.com',
+                  phone: '+998901234567',
                 ),
               ),
             ),
