@@ -18,8 +18,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:formz/formz.dart';
 import 'package:hilol_chat_flutter/src/extensions/message_x.dart';
 import 'package:hilol_chat_flutter/src/models/image_meta.dart';
+import 'package:hilol_chat_flutter/src/models/upload_task.dart';
 import 'package:hilol_chat_flutter/src/utils/image_utils.dart';
-import 'package:hilol_chat_flutter/src/utils/logger.dart';
 
 part 'hilol_chat_event.dart';
 part 'hilol_chat_state.dart';
@@ -28,6 +28,7 @@ part 'hilol_chat_bloc.freezed.dart';
 class HilolChatBloc extends Bloc<HilolChatEvent, HilolChatState> {
   final ChatRepository chatRepository;
   StreamSubscription<ChatMessage>? _messageSubscription;
+  bool _isProcessingQueue = false;
 
   GlobalKey<NavigatorState>? _navigatorKey;
   void Function()? _onNotificationTap;
@@ -60,6 +61,7 @@ class HilolChatBloc extends Bloc<HilolChatEvent, HilolChatState> {
                 if (message.isEdited) {
                   return;
                 }
+
                 add(HilolChatEvent.addMessage(message));
               });
 
@@ -186,47 +188,27 @@ class HilolChatBloc extends Bloc<HilolChatEvent, HilolChatState> {
           );
         },
         sendImage: (imagePath, endpoint) async {
-          final fileName = imagePath.split(Platform.pathSeparator).last;
-          final imageFile = File(imagePath);
-
-          final image = await getImageDimensions(imagePath);
-          final chatMessage = ChatMessage(
-            id: 0,
-            chatId: 0,
-            content: imagePath,
-            type: MessageType.user,
-            createdAt: DateTime.now(),
-            metadata: ImageMeta(
-              isImage: true,
-              originalName: fileName,
-              filePath: imagePath,
-              size: 0,
-              width: image.width,
-              height: image.height,
-            ).toJson(),
+          await _enqueueImage(
+            imagePath,
+            endpoint ?? state.defaultEndpoint,
+            emit,
           );
-          final messages = [...state.messages, chatMessage];
-          emit(state.copyWith(messages: messages));
-
-          final result = await chatRepository.sendImage(
-            imageFile: imageFile,
-            imagePath: imagePath,
-            fileName: fileName,
-            endpoint: endpoint ?? state.defaultEndpoint,
-            onProgress: (sent, total) {
-              Log.d(sent / total * 100, fileName: 'hilol_chat_bloc');
-            },
-          );
-
-          result.fold(
-            (failure) {
-              emit(state.copyWith(errorMessage: failure.message));
-            },
-            (imageSendResult) {
-              // Message will be updated via the message stream
-              emit(state.copyWith(errorMessage: null));
-            },
-          );
+        },
+        sendImages: (imagePaths, endpoint) async {
+          for (final imagePath in imagePaths) {
+            await _enqueueImage(
+              imagePath,
+              endpoint ?? state.defaultEndpoint,
+              emit,
+            );
+          }
+        },
+        updateUploadProgress: (filePath, progress) {
+          final task = state.uploadTasks[filePath];
+          if (task == null) return;
+          final updatedTasks = Map<String, UploadTask>.from(state.uploadTasks);
+          updatedTasks[filePath] = task.copyWith(progress: progress);
+          emit(state.copyWith(uploadTasks: updatedTasks));
         },
         onRegistered: () async {
           emit(state.copyWith(isRegistered: true, errorMessage: null));
@@ -264,10 +246,7 @@ class HilolChatBloc extends Bloc<HilolChatEvent, HilolChatState> {
         addMessage: (message) {
           final messages = message.isUserMessage
               ? [...state.messages]
-              : [
-                  ...state.messages.map((e) => e.copyWith(isRead: true)),
-                  message,
-                ];
+              : [...state.messages.map((e) => e.copyWith(isRead: true))];
 
           if (message.isUserMessage) {
             final index = messages.indexWhere(
@@ -282,6 +261,16 @@ class HilolChatBloc extends Bloc<HilolChatEvent, HilolChatState> {
                       metadata: messages[index].imageMeta.toJson(),
                     )
                   : message;
+            } else {
+              messages.add(message);
+            }
+          } else {
+            final existingIndex = messages.indexWhere(
+              (m) => m.id == message.id,
+            );
+
+            if (existingIndex != -1) {
+              messages[existingIndex] = message;
             } else {
               messages.add(message);
             }
@@ -300,6 +289,107 @@ class HilolChatBloc extends Bloc<HilolChatEvent, HilolChatState> {
         },
       );
     });
+  }
+
+  Future<void> _enqueueImage(
+    String imagePath,
+    String? endpoint,
+    Emitter<HilolChatState> emit,
+  ) async {
+    final fileName = imagePath.split(Platform.pathSeparator).last;
+    final image = await getImageDimensions(imagePath);
+
+    final chatMessage = ChatMessage(
+      id: 0,
+      chatId: 0,
+      content: imagePath,
+      type: MessageType.user,
+      createdAt: DateTime.now(),
+      metadata: ImageMeta(
+        isImage: true,
+        originalName: fileName,
+        filePath: imagePath,
+        size: 0,
+        width: image.width,
+        height: image.height,
+      ).toJson(),
+    );
+
+    final uploadTask = UploadTask(filePath: imagePath);
+    final messages = [...state.messages, chatMessage];
+    final uploadTasks = Map<String, UploadTask>.from(state.uploadTasks)
+      ..[imagePath] = uploadTask;
+
+    emit(state.copyWith(messages: messages, uploadTasks: uploadTasks));
+
+    if (!_isProcessingQueue) {
+      await _processQueue(endpoint, emit);
+    }
+  }
+
+  Future<void> _processQueue(
+    String? endpoint,
+    Emitter<HilolChatState> emit,
+  ) async {
+    _isProcessingQueue = true;
+
+    while (true) {
+      final waitingEntry = state.uploadTasks.entries
+          .where((e) => e.value.status == UploadStatus.waiting)
+          .firstOrNull;
+      if (waitingEntry == null) break;
+
+      final filePath = waitingEntry.key;
+      final updatedTasks = Map<String, UploadTask>.from(state.uploadTasks);
+      updatedTasks[filePath] = waitingEntry.value.copyWith(
+        status: UploadStatus.uploading,
+      );
+      emit(state.copyWith(uploadTasks: updatedTasks));
+
+      final fileName = filePath.split(Platform.pathSeparator).last;
+      final imageFile = File(filePath);
+
+      DateTime lastEmit = DateTime.now();
+
+      final result = await chatRepository.sendImage(
+        imageFile: imageFile,
+        imagePath: filePath,
+        fileName: fileName,
+        endpoint: endpoint,
+        onProgress: (sent, total) {
+          final now = DateTime.now();
+          if (now.difference(lastEmit).inMilliseconds < 100 && sent < total) {
+            return;
+          }
+          lastEmit = now;
+          add(
+            HilolChatEvent.updateUploadProgress(
+              filePath,
+              total > 0 ? sent / total : 0.0,
+            ),
+          );
+        },
+      );
+
+      result.fold(
+        (failure) {
+          final tasks = Map<String, UploadTask>.from(state.uploadTasks);
+          tasks[filePath] = tasks[filePath]!.copyWith(
+            status: UploadStatus.failed,
+          );
+          emit(
+            state.copyWith(uploadTasks: tasks, errorMessage: failure.message),
+          );
+        },
+        (_) {
+          final tasks = Map<String, UploadTask>.from(state.uploadTasks);
+          tasks.remove(filePath);
+          emit(state.copyWith(uploadTasks: tasks, errorMessage: null));
+        },
+      );
+    }
+
+    _isProcessingQueue = false;
   }
 
   void _showNotification(ChatMessage message) {

@@ -27,6 +27,12 @@ sealed class HilolChatEvent with _$HilolChatEvent {
   const factory HilolChatEvent.sendImage(String imagePath, {String? endpoint}) =
       _SendImage;
 
+  const factory HilolChatEvent.sendImages(List<String> imagePaths, {String? endpoint}) =
+      _SendImages;
+
+  const factory HilolChatEvent.updateUploadProgress(String filePath, double progress) =
+      _UpdateUploadProgress;
+
   const factory HilolChatEvent.addMessage(ChatMessage message) = _AddMessage;
 
   const factory HilolChatEvent.onRegistered() = _OnRegistered;

@@ -13,5 +13,6 @@ sealed class HilolChatState with _$HilolChatState {
     HilolChatRegisterModel? defaultUserData,
     ChatMessage? editingMessage,
     @Default(false) bool isChatPageVisible,
+    @Default({}) Map<String, UploadTask> uploadTasks,
   }) = _Initial;
 }
