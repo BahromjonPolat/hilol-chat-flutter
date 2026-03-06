@@ -148,12 +148,10 @@ packages:
   fcrm_chat_sdk:
     dependency: transitive
     description:
-      path: "."
-      ref: main
-      resolved-ref: "3463c1381f8e153d00b2aed69cf6a9fa91a60a8d"
-      url: "https://github.com/ipchi/fcrm_chat_sdk.git"
-    source: git
-    version: "1.4.4"
+      path: "../../fcrm_chat_sdk"
+      relative: true
+    source: path
+    version: "1.4.5"
   ffi:
     dependency: transitive
     description:
@@ -319,7 +317,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.0.2"
+    version: "0.0.4"
   http:
     dependency: transitive
     description:

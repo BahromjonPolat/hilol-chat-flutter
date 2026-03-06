@@ -183,7 +183,7 @@ class ChatRepositoryImpl implements ChatRepository {
         ).toJson(),
       );
 
-      await _chat!.sendImage(
+      await _chat?.sendImage(
         imageFile,
         endpoint: endpoint ?? _defaultEndpoint,
         onSendProgress: onProgress,

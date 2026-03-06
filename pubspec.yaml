@@ -14,9 +14,10 @@ dependencies:
   dropdown_button2: ^2.3.9
   equatable: ^2.0.5
   fcrm_chat_sdk:
-    git:
-      url: https://github.com/ipchi/fcrm_chat_sdk.git
-      ref: main
+    path: ../fcrm_chat_sdk/
+    # git:
+    #   url: https://github.com/ipchi/fcrm_chat_sdk.git
+    #   ref: main
   file_picker: ^10.3.7
   flutter:
     sdk: flutter
