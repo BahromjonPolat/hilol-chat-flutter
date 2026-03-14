@@ -44,7 +44,7 @@ class _HilolChatShimmerState extends State<HilolChatShimmer>
     return ListView.separated(
       padding: const EdgeInsets.all(16),
       itemCount: 7,
-      separatorBuilder: (_, _) => const SizedBox(height: 16),
+      separatorBuilder: (_, __) => const SizedBox(height: 16),
       itemBuilder: (context, index) {
         final isLeft = index % 2 == 0;
         return _ChatBubbleShimmer(animation: _animation, isLeft: isLeft);
@@ -66,9 +66,8 @@ class _ChatBubbleShimmer extends StatelessWidget {
       builder: (context, child) {
         return Row(
           crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: isLeft
-              ? MainAxisAlignment.start
-              : MainAxisAlignment.end,
+          mainAxisAlignment:
+              isLeft ? MainAxisAlignment.start : MainAxisAlignment.end,
           children: [
             if (isLeft) ...[
               _ShimmerCircle(gradientOffset: animation.value),

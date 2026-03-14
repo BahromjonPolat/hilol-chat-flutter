@@ -26,14 +26,13 @@ class HilolChatSenderAvatar extends StatelessWidget {
           width: 40,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            border: .all(color: Colors.green),
+            border: Border.all(color: Colors.green),
             image: const DecorationImage(
               image: AssetImage(HilolChatImages.support),
               fit: BoxFit.cover,
             ),
           ),
         ),
-
         if (isOnline) ...{
           const Positioned(
             bottom: 0,

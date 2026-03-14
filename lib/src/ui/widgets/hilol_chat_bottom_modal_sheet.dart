@@ -24,7 +24,7 @@ class HilolChatBottomModalSheetContent extends StatelessWidget {
         color: Theme.of(context).cardColor,
       ),
       child: Column(
-        mainAxisSize: .min,
+        mainAxisSize: MainAxisSize.min,
         children: [
           const SizedBox(height: 8),
           Container(
@@ -35,7 +35,6 @@ class HilolChatBottomModalSheetContent extends StatelessWidget {
               color: context.isDark ? Colors.white : Colors.black,
             ),
           ),
-
           ...items.map(
             (e) => ListTile(
               title: Text(e.title),

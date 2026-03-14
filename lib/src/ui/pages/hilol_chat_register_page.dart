@@ -49,15 +49,15 @@ class HilolChatRegisterCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
           ),
           child: Column(
-            mainAxisSize: .min,
-            crossAxisAlignment: .stretch,
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
                 Strings.register_greeting.tr(),
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 22,
-                ),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 22,
+                    ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 8),
@@ -80,8 +80,8 @@ class HilolChatRegisterCard extends StatelessWidget {
                 hintText: Strings.register_name_placeholder.tr(),
                 onChanged: (value) {
                   context.read<HilolChatRegisterBloc>().add(
-                    HilolChatRegisterEvent.nameChanged(value),
-                  );
+                        HilolChatRegisterEvent.nameChanged(value),
+                      );
                 },
                 errorText: state.name.displayError != null
                     ? _getNameErrorText(state.name.displayError!)
@@ -97,12 +97,11 @@ class HilolChatRegisterCard extends StatelessWidget {
                   AutofillHints.email,
                   AutofillHints.telephoneNumber,
                 ],
-
                 hintText: Strings.register_email_or_phone_placeholder.tr(),
                 onChanged: (value) {
                   context.read<HilolChatRegisterBloc>().add(
-                    HilolChatRegisterEvent.emailOrPhoneChanged(value),
-                  );
+                        HilolChatRegisterEvent.emailOrPhoneChanged(value),
+                      );
                 },
                 errorText: state.emailOrPhone.displayError != null
                     ? _getEmailOrPhoneErrorText(
@@ -116,20 +115,21 @@ class HilolChatRegisterCard extends StatelessWidget {
                 isLoading: state.status.isInProgress,
                 onPressed: () {
                   context.read<HilolChatRegisterBloc>().add(
-                    HilolChatRegisterEvent.submit(
-                      onSuccess: () {
-                        context.read<HilolChatBloc>().add(
-                          const HilolChatEvent.onRegistered(),
-                        );
-                        context.pop();
-                      },
-                      onError: (errorMessage) {
-                        ScaffoldMessenger.of(
-                          context,
-                        ).showSnackBar(SnackBar(content: Text(errorMessage)));
-                      },
-                    ),
-                  );
+                        HilolChatRegisterEvent.submit(
+                          onSuccess: () {
+                            context.read<HilolChatBloc>().add(
+                                  const HilolChatEvent.onRegistered(),
+                                );
+                            context.pop();
+                          },
+                          onError: (errorMessage) {
+                            ScaffoldMessenger.of(
+                              context,
+                            ).showSnackBar(
+                                SnackBar(content: Text(errorMessage)));
+                          },
+                        ),
+                      );
                 },
                 text: Strings.register_start_button.tr(),
               ),

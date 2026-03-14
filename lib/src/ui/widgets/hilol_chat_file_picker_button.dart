@@ -25,8 +25,8 @@ class HilolChatFilePickerButton extends StatelessWidget {
           onPicked: (value) {
             final imagePath = value.first.path;
             context.read<HilolChatBloc>().add(
-              HilolChatEvent.sendImage(imagePath),
-            );
+                  HilolChatEvent.sendImage(imagePath),
+                );
           },
         );
         // showHilolChatBottomModalSheet(
@@ -56,7 +56,7 @@ class HilolChatFilePickerButton extends StatelessWidget {
       child: Container(
         height: 48,
         width: 48,
-        alignment: .center,
+        alignment: Alignment.center,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: Theme.of(context).cardColor,
