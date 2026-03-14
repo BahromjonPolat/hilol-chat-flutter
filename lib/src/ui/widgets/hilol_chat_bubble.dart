@@ -20,7 +20,6 @@ import 'package:hilol_chat_flutter/src/utils/date_utils.dart';
 import 'package:fcrm_chat_sdk/fcrm_chat_sdk.dart';
 import 'package:flutter/material.dart';
 
-import '../../enums/bubble_type.dart';
 import 'hilol_chat_sender_avatar.dart';
 
 class HilolChatBubble extends StatelessWidget {

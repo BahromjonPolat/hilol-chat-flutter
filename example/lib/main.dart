@@ -8,8 +8,7 @@ import 'package:hilol_chat_flutter/hilol_chat_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // final pref = await SharedPreferences.getInstance();
-  // await pref.clear();
+
   runApp(const MyApp());
 }
 
@@ -41,11 +40,6 @@ class MyApp extends StatelessWidget {
                       MaterialPageRoute(builder: (_) => const HilolChatPage()),
                     );
                   },
-                ),
-                userData: HilolChatRegisterModel(
-                  name: 'Example user',
-                  email: 'example@gmail.com',
-                  phone: '+998901234567',
                 ),
               ),
             ),
