@@ -22,16 +22,16 @@ class HilolChatRegisterBloc
   final ChatRepository _repository;
 
   HilolChatRegisterBloc({required ChatRepository repository})
-    : _repository = repository,
-      super(
-        const HilolChatRegisterState(
-          name: NameInput.pure(),
-          emailOrPhone: EmailOrPhoneInput.pure(),
-          isValid: false,
-          status: FormzSubmissionStatus.initial,
-          errorMessage: null,
-        ),
-      ) {
+      : _repository = repository,
+        super(
+          const HilolChatRegisterState(
+            name: NameInput.pure(),
+            emailOrPhone: EmailOrPhoneInput.pure(),
+            isValid: false,
+            status: FormzSubmissionStatus.initial,
+            errorMessage: null,
+          ),
+        ) {
     on<HilolChatRegisterEvent>((event, emit) async {
       await event.when(
         nameChanged: (name) {
@@ -68,6 +68,7 @@ class HilolChatRegisterBloc
           final type = state.emailOrPhone.value.getUsernameType();
           final Map<String, dynamic> userData = {
             'name': state.name.value,
+            'phone': state.emailOrPhone.value,
             type: state.emailOrPhone.value,
           };
 

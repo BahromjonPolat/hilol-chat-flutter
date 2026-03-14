@@ -67,9 +67,30 @@ Add the following permission to your `android/app/src/main/AndroidManifest.xml` 
 
 **Note:** The package uses `url_launcher` for phone call functionality. No additional permissions are required as the app only opens the phone dialer with a pre-filled number - the user must manually initiate the actual call.
 
-### 2. API Configuration
+### 2. Environment Variables
 
-First, you need to obtain the following credentials from your Hilol dashboard to configure `HilolChatConfig`:
+Create an `env.dart` file to store your credentials securely using `String.fromEnvironment`:
+
+```dart
+abstract final class Env {
+  const Env._();
+  static const baseUrl = String.fromEnvironment('BASE_URL');
+  static const companyToken = String.fromEnvironment('COMPANY_TOKEN');
+  static const appKey = String.fromEnvironment('APP_KEY');
+  static const appSecret = String.fromEnvironment('APP_SECRET');
+  static const socketUrl = String.fromEnvironment('SOCKET_URL');
+}
+```
+
+Then run your app with:
+
+```bash
+flutter run --dart-define=BASE_URL=your_base_url --dart-define=COMPANY_TOKEN=your_token --dart-define=APP_KEY=your_key --dart-define=APP_SECRET=your_secret --dart-define=SOCKET_URL=your_socket_url
+```
+
+### 3. API Configuration
+
+Obtain the following credentials from your Hilol dashboard to configure `HilolChatConfig`:
 - `baseUrl` - API base URL (required)
 - `companyToken` - Your company's unique token (required)
 - `appKey` - Application key (required)
@@ -78,20 +99,25 @@ First, you need to obtain the following credentials from your Hilol dashboard to
 - `defaultEndpoint` - Default chat endpoint name (optional)
 - `enableLogging` - Enable SDK logging (optional, default: false)
 - `connectionTimeout` - Connection timeout duration (optional)
+- `navigatorKey` - GlobalKey for navigator state, used for in-app notification navigation (optional)
+- `onNotificationTap` - Callback when user taps on a chat notification (optional)
 
-### 3. Initialize the BLoC
+### 4. Initialize the BLoC
 
 Wrap your app with `MultiBlocProvider` and initialize the `HilolChatBloc`:
 
 ```dart
-import 'package:hilol_chat_flutter/hilol_chat_flutter.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hilol_chat_flutter/hilol_chat_flutter.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
+
+final _navigatorKey = GlobalKey<NavigatorState>();
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -101,22 +127,34 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
+          lazy: false,
           create: (context) => HilolChatBloc()
             ..add(
               HilolChatEvent.initialize(
                 config: HilolChatConfig(
-                  baseUrl: 'YOUR_BASE_URL',
-                  companyToken: 'YOUR_COMPANY_TOKEN',
-                  appKey: 'YOUR_APP_KEY',
-                  appSecret: 'YOUR_APP_SECRET',
-                  socketUrl: 'YOUR_SOCKET_URL',
+                  baseUrl: Env.baseUrl,
+                  companyToken: Env.companyToken,
+                  appKey: Env.appKey,
+                  appSecret: Env.appSecret,
+                  socketUrl: Env.socketUrl,
+                  enableLogging: kDebugMode,
                   defaultEndpoint: 'Support Chat',
+                  navigatorKey: _navigatorKey,
+                  onNotificationTap: () {
+                    _navigatorKey.currentState?.push(
+                      MaterialPageRoute(
+                        builder: (_) => const HilolChatPage(),
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
         ),
       ],
       child: MaterialApp(
+        navigatorKey: _navigatorKey,
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primaryColor: Color(0xFF0085FF),
           scaffoldBackgroundColor: Color(0xFFF1F3F3),
@@ -128,7 +166,9 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-### 4. Navigate to Chat Page
+> **Note:** `lazy: false` ensures the BLoC initializes immediately when the app starts, enabling real-time notifications even before the chat page is opened.
+
+### 5. Navigate to Chat Page
 
 To open the chat interface, navigate to `HilolChatPage`:
 
