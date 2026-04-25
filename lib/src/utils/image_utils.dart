@@ -5,19 +5,19 @@
 
 */
 
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'dart:io';
 import 'dart:ui' as ui;
 
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 Future<ui.Image> getImageDimensions(String imagePath) async {
-  // For a network image, first get the bytes
-  // final response = await http.get(Uri.parse(imageUrl));
-  // final bytes = response.bodyBytes;
-
-  // For a file from local storage or asset (example using asset)
-  final ByteData data = await rootBundle.load(imagePath);
-  final Uint8List bytes = data.buffer.asUint8List();
-
-  final decodedImage = await decodeImageFromList(bytes);
-  return decodedImage;
+  final Uint8List bytes;
+  if (imagePath.startsWith('assets/') || imagePath.startsWith('packages/')) {
+    final ByteData data = await rootBundle.load(imagePath);
+    bytes = data.buffer.asUint8List();
+  } else {
+    bytes = await File(imagePath).readAsBytes();
+  }
+  return decodeImageFromList(bytes);
 }

@@ -1,6 +1,6 @@
 name: hilol_chat_flutter
 description: "Hilol Chat Flutter"
-version: 0.0.6
+version: 0.0.7
 publish_to: none
 
 environment:
@@ -46,6 +46,7 @@ flutter:
   assets:
     - lib/src/assets/icons/
     - lib/src/assets/images/
+
 # fonts:
 #   - family: Schyler
 #     fonts:

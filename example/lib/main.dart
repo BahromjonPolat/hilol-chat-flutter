@@ -8,7 +8,6 @@ import 'package:hilol_chat_flutter/hilol_chat_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   runApp(const MyApp());
 }
 
