@@ -5,6 +5,7 @@
 
 */
 
+import 'package:custom_text/custom_text.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hilol_chat_flutter/hilol_chat_flutter.dart';
@@ -19,6 +20,8 @@ import 'package:hilol_chat_flutter/src/ui/widgets/hilol_chat_image_viewer.dart';
 import 'package:hilol_chat_flutter/src/utils/date_utils.dart';
 import 'package:fcrm_chat_sdk/fcrm_chat_sdk.dart';
 import 'package:flutter/material.dart';
+import 'package:hilol_chat_flutter/src/utils/logger.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import 'hilol_chat_sender_avatar.dart';
 
@@ -51,14 +54,12 @@ class HilolChatBubble extends StatelessWidget {
     final isUserMessage = message.isUserMessage;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
-      mainAxisAlignment: isUserMessage
-          ? MainAxisAlignment.end
-          : MainAxisAlignment.start,
+      mainAxisAlignment:
+          isUserMessage ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: [
         if (!isUserMessage) ...{
           const HilolChatSenderAvatar(imageUrl: '', isOnline: true),
         },
-
         Theme(
           data: Theme.of(context).copyWith(
             splashColor: Colors.transparent,
@@ -85,8 +86,8 @@ class HilolChatBubble extends StatelessWidget {
                     child: Text(Strings.general_edit.tr()),
                     onTap: () {
                       context.read<HilolChatBloc>().add(
-                        HilolChatEvent.startEditing(message),
-                      );
+                            HilolChatEvent.startEditing(message),
+                          );
                     },
                   ),
                 },
@@ -139,8 +140,32 @@ class HilolChatBubble extends StatelessWidget {
                                   imageUrl: message.content,
                                   imageMeta: message.imageMeta,
                                 )
-                              : Text(
+                              : CustomText(
                                   message.content,
+                                  definitions: [
+                                    TextDefinition(
+                                      matcher: const UrlMatcher(),
+                                      matchStyle: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        decoration: TextDecoration.underline,
+                                        decorationColor: isUserMessage
+                                            ? Colors.white
+                                            : Colors.blue,
+                                        color: isUserMessage
+                                            ? Colors.white
+                                            : Colors.blue,
+                                      ),
+                                      onTap: (value) async {
+                                        try {
+                                          launchUrlString(value.actionText);
+                                        } catch (e) {
+                                          Log.d(e,
+                                              fileName: 'hilol_chat_bubble');
+                                        }
+                                      },
+                                    ),
+                                  ],
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                     fontSize: 14,
