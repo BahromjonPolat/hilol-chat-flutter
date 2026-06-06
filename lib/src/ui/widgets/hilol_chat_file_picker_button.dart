@@ -7,6 +7,7 @@
 
 import 'package:hilol_chat_flutter/hilol_chat_flutter.dart';
 import 'package:hilol_chat_flutter/src/constants/hilol_chat_icons.dart';
+import 'package:hilol_chat_flutter/src/extensions/context_x.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,15 +21,28 @@ class HilolChatFilePickerButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        _pickFile(
-          isFile: false,
-          onPicked: (value) {
-            final imagePath = value.first.path;
-            context.read<HilolChatBloc>().add(
-                  HilolChatEvent.sendImage(imagePath),
-                );
-          },
-        );
+        final bloc = context.read<HilolChatBloc>();
+
+        if (!bloc.state.isRegistered) {
+          final defaultUserData = bloc.state.defaultUserData;
+          if (defaultUserData != null) {
+            bloc.add(
+              HilolChatEvent.register(
+                data: defaultUserData,
+                onSuccess: () {
+                  _pickAndSendImage(context);
+                },
+              ),
+            );
+          } else {
+            context.push(
+              HilolChatRegisterPage(chatRepository: bloc.chatRepository),
+            );
+          }
+          return;
+        }
+
+        _pickAndSendImage(context);
         // showHilolChatBottomModalSheet(
         //   context: context,
         //   items: [
@@ -69,6 +83,18 @@ class HilolChatFilePickerButton extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  void _pickAndSendImage(BuildContext context) {
+    _pickFile(
+      isFile: false,
+      onPicked: (value) {
+        final imagePath = value.first.path;
+        context.read<HilolChatBloc>().add(
+              HilolChatEvent.sendImage(imagePath),
+            );
+      },
     );
   }
 

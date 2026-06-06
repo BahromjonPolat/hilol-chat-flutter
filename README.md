@@ -10,8 +10,9 @@ A Flutter package for integrating Hilol chat functionality into your Flutter app
 - **Media support** - Send and receive images and files
 - **BLoC architecture** - State management using flutter_bloc
 - **Customizable theming** - Adapt the chat UI to match your app's design
-- **Message status** - Delivery and read receipts
-- **Avatar support** - User profile pictures and online status indicators
+- **Message editing** - Edit sent messages
+- **In-app notifications** - Overlay-based notification banners when new messages arrive outside the chat page
+- **Multi-language support** - Built-in translations for Uzbek, Russian, English, Turkish, and more
 
 ## Installation
 
@@ -46,26 +47,19 @@ Add the following to your `ios/Runner/Info.plist` file to enable phone call func
 </array>
 ```
 
-This allows the app to check if the device can make phone calls and open the phone dialer when the call button is tapped in the chat interface.
-
 #### Android Configuration
 
-Add the following permission to your `android/app/src/main/AndroidManifest.xml` file:
+Add the following to your `android/app/src/main/AndroidManifest.xml` file:
 
 ```xml
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Add this inside the manifest tag -->
     <queries>
         <intent>
             <action android:name="android.intent.action.DIAL" />
         </intent>
     </queries>
-
-    <!-- Rest of your manifest -->
 </manifest>
 ```
-
-**Note:** The package uses `url_launcher` for phone call functionality. No additional permissions are required as the app only opens the phone dialer with a pre-filled number - the user must manually initiate the actual call.
 
 ### 2. Environment Variables
 
@@ -85,26 +79,15 @@ abstract final class Env {
 Then run your app with:
 
 ```bash
-flutter run --dart-define=BASE_URL=your_base_url --dart-define=COMPANY_TOKEN=your_token --dart-define=APP_KEY=your_key --dart-define=APP_SECRET=your_secret --dart-define=SOCKET_URL=your_socket_url
+flutter run \
+  --dart-define=BASE_URL=your_base_url \
+  --dart-define=COMPANY_TOKEN=your_token \
+  --dart-define=APP_KEY=your_key \
+  --dart-define=APP_SECRET=your_secret \
+  --dart-define=SOCKET_URL=your_socket_url
 ```
 
-### 3. API Configuration
-
-Obtain the following credentials from your Hilol dashboard to configure `HilolChatConfig`:
-- `baseUrl` - API base URL (required)
-- `companyToken` - Your company's unique token (required)
-- `appKey` - Application key (required)
-- `appSecret` - Application secret (required)
-- `socketUrl` - WebSocket server URL (optional)
-- `defaultEndpoint` - Default chat endpoint name (optional)
-- `enableLogging` - Enable SDK logging (optional, default: false)
-- `connectionTimeout` - Connection timeout duration (optional)
-- `navigatorKey` - GlobalKey for navigator state, used for in-app notification navigation (optional)
-- `onNotificationTap` - Callback when user taps on a chat notification (optional)
-
-### 4. Initialize the BLoC
-
-Wrap your app with `MultiBlocProvider` and initialize the `HilolChatBloc`:
+### 3. Initialize and Use
 
 ```dart
 import 'package:flutter/foundation.dart';
@@ -124,42 +107,37 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          lazy: false,
-          create: (context) => HilolChatBloc()
-            ..add(
-              HilolChatEvent.initialize(
-                config: HilolChatConfig(
-                  baseUrl: Env.baseUrl,
-                  companyToken: Env.companyToken,
-                  appKey: Env.appKey,
-                  appSecret: Env.appSecret,
-                  socketUrl: Env.socketUrl,
-                  enableLogging: kDebugMode,
-                  defaultEndpoint: 'Support Chat',
-                  navigatorKey: _navigatorKey,
-                  onNotificationTap: () {
-                    _navigatorKey.currentState?.push(
-                      MaterialPageRoute(
-                        builder: (_) => const HilolChatPage(),
-                      ),
-                    );
-                  },
-                ),
-              ),
+    return BlocProvider(
+      lazy: false,
+      create: (context) => HilolChatBloc()
+        ..add(
+          HilolChatEvent.initialize(
+            config: HilolChatConfig(
+              baseUrl: Env.baseUrl,
+              companyToken: Env.companyToken,
+              appKey: Env.appKey,
+              appSecret: Env.appSecret,
+              socketUrl: Env.socketUrl,
+              enableLogging: kDebugMode,
+              defaultEndpoint: 'Support Chat',
+              navigatorKey: _navigatorKey,
+              onNotificationTap: () {
+                _navigatorKey.currentState?.push(
+                  MaterialPageRoute(builder: (_) => const HilolChatPage()),
+                );
+              },
             ),
+          ),
         ),
-      ],
       child: MaterialApp(
         navigatorKey: _navigatorKey,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primaryColor: Color(0xFF0085FF),
-          scaffoldBackgroundColor: Color(0xFFF1F3F3),
+          primaryColor: const Color(0xFF0085FF),
+          cardColor: Colors.white,
+          scaffoldBackgroundColor: const Color(0xFFF1F3F3),
         ),
-        home: HomePage(),
+        home: const HomePage(),
       ),
     );
   }
@@ -168,98 +146,78 @@ class MyApp extends StatelessWidget {
 
 > **Note:** `lazy: false` ensures the BLoC initializes immediately when the app starts, enabling real-time notifications even before the chat page is opened.
 
-### 5. Navigate to Chat Page
-
-To open the chat interface, navigate to `HilolChatPage`:
+### 4. Navigate to Chat Page
 
 ```dart
 Navigator.of(context).push(
-  MaterialPageRoute(
-    builder: (context) => HilolChatPage(),
-  ),
+  MaterialPageRoute(builder: (context) => const HilolChatPage()),
 );
 ```
 
-## Usage Example
+### 5. Pre-fill User Data (Optional)
 
-Here's a complete example:
-
-```dart
-import 'package:hilol_chat_flutter/hilol_chat_flutter.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('My App'),
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => HilolChatPage(),
-              ),
-            );
-          },
-          child: Text('Open Chat'),
-        ),
-      ),
-    );
-  }
-}
-```
-
-## Customization
-
-### Theme Customization
-
-You can customize the chat appearance by setting theme properties in your `MaterialApp`:
+If you already have user information, pass it during initialization to skip the registration form:
 
 ```dart
-MaterialApp(
-  theme: ThemeData(
-    primaryColor: Colors.blue, // Sender message bubble color
-    cardColor: Colors.white, // Receiver message bubble color
-    scaffoldBackgroundColor: Color(0xFFF1F3F3), // Chat background
-    appBarTheme: AppBarThemeData(
-      backgroundColor: Colors.white,
-      foregroundColor: Colors.black,
-    ),
+HilolChatEvent.initialize(
+  config: HilolChatConfig(...),
+  userData: HilolChatRegisterModel(
+    name: 'John Doe',
+    email: 'john@example.com',
+    phone: '+998901234567',
   ),
-  // ...
 )
 ```
 
-### Custom Widgets
+## Configuration
 
-The package exports reusable widgets that you can use in your custom implementations:
+### HilolChatConfig
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `baseUrl` | `String` | Yes | API base URL |
+| `companyToken` | `String` | Yes | Your company's unique token |
+| `appKey` | `String` | Yes | Application key |
+| `appSecret` | `String` | Yes | Application secret |
+| `socketUrl` | `String` | No | WebSocket server URL |
+| `defaultEndpoint` | `String` | No | Default chat endpoint name |
+| `enableLogging` | `bool` | No | Enable SDK logging (default: `false`) |
+| `connectionTimeout` | `Duration` | No | Connection timeout duration |
+| `navigatorKey` | `GlobalKey<NavigatorState>` | No | Navigator key for in-app notification overlay |
+| `onNotificationTap` | `void Function()` | No | Callback when user taps on a notification banner |
+
+### Theme Customization
+
+Customize the chat appearance through `ThemeData`:
 
 ```dart
-import 'package:hilol_chat_flutter/hilol_chat_flutter.dart';
-
-// Available widgets:
-// - HilolChatBubble: Message bubble widget
-// - HilolChatSenderAvatar: User avatar with online status
-// - HilolChatInput: Message input field with attachment options
+ThemeData(
+  primaryColor: Colors.blue,           // Sender message bubble color
+  cardColor: Colors.white,             // Receiver message bubble color
+  scaffoldBackgroundColor: Color(0xFFF1F3F3), // Chat background
+  appBarTheme: AppBarThemeData(
+    backgroundColor: Colors.white,
+    foregroundColor: Colors.black,
+  ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: Colors.blue,
+      foregroundColor: Colors.white,
+    ),
+  ),
+)
 ```
 
 ## Architecture
 
-This package uses the **BLoC (Business Logic Component)** pattern for state management:
+This package uses the **BLoC** pattern for state management:
 
 - `HilolChatBloc` - Manages chat messages, user state, and real-time communication
-- `HilolChatEvent` - Events for chat operations (send message, load history, etc.)
-- `HilolChatState` - Chat state (loading, success, error states)
+- `HilolChatEvent` - Events for chat operations (initialize, send message, load history, edit message, etc.)
+- `HilolChatState` - Chat state including messages, registration status, and upload progress
 
 ## Dependencies
 
-This package relies on:
 - `fcrm_chat_sdk` - Core SDK for Hilol chat functionality
 - `flutter_bloc` - State management
 - `cached_network_image` - Image caching
@@ -270,30 +228,8 @@ This package relies on:
 ## Requirements
 
 - Flutter SDK: >=1.17.0
-- Dart SDK: ^3.10.0
-
-## Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## Support
-
-For issues, questions, or feature requests, please open an issue on the GitHub repository.
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
+- Dart SDK: >=3.0.0 <4.0.0
 
 ## Author
 
 Created by Bakhromjon Polat
-
-## Changelog
-
-See [CHANGELOG.md](CHANGELOG.md) for a list of changes in each version.
