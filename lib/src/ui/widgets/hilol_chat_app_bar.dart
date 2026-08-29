@@ -7,8 +7,6 @@
 
 import 'package:hilol_chat_flutter/src/constants/hilol_chat_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:hilol_chat_flutter/src/extensions/string_x.dart';
-import 'package:hilol_chat_flutter/src/languages/strings.dart';
 import 'package:hilol_chat_flutter/src/utils/logger.dart';
 import 'package:svg_flutter/svg.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -20,20 +18,20 @@ class HilolChatAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       centerTitle: true,
-      title: Column(
+      title: const Column(
         children: [
-          const Text(
+          Text(
             'Hilol Support',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
           ),
-          Text(
-            Strings.time_online.tr(),
-            style: TextStyle(
-              fontSize: 10,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).primaryColor,
-            ),
-          ),
+          // Text(
+          //   Strings.time_online.tr(),
+          //   style: TextStyle(
+          //     fontSize: 10,
+          //     fontWeight: FontWeight.w500,
+          //     color: Theme.of(context).primaryColor,
+          //   ),
+          // ),
         ],
       ),
       actions: [
